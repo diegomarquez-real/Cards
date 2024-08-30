@@ -12,4 +12,9 @@ using IHost host = builder.Build();
 
 var yugiohService = host.Services.GetService<Cards.WebScraper.Services.Abstractions.IYugiohService>();
 
+if(yugiohService != null)
+{
+    await yugiohService.GetRecentCardsAsync();
+}
+
 await host.RunAsync();
