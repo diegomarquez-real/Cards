@@ -27,6 +27,8 @@ namespace Cards.WebScraper.Services
             await _driver.Navigate().GoToUrlAsync(_options.Value.YugiohDbUrl);
             var cardUpdateList = _driver.FindElement(By.Id("update_list"));
             var mostRecentCardsLink = cardUpdateList.FindElement(By.ClassName("t_body")).FindElement(By.ClassName("t_row"));
+            var cardListReleaseDate = mostRecentCardsLink.FindElement(By.ClassName("time")).Text;
+            var cardSetName = mostRecentCardsLink.FindElement(By.ClassName("pack")).FindElement(By.TagName("p")).Text;
             mostRecentCardsLink.Click();
             var currentPageHtml = new HtmlDocument();
             currentPageHtml.LoadHtml(_driver.PageSource);
