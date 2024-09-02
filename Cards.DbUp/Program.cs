@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
 
@@ -14,5 +13,11 @@ builder.Logging.AddNLog(); // Add NLog logging provider.
 builder.Services.AddOptions(builder.Configuration); // Configure settings for IOptions DI.
 builder.Services.AddServices(); // Register services for DI.
 using IHost host = builder.Build();
+
+var databaseMigrationService = host.Services.GetService<Cards.DbUp.Services.Abstractions.IDatabaseMigrationService>();
+if (databaseMigrationService != null)
+{
+    databaseMigrationService.ApplyMSSQLDatabaseMigrations();
+}
 
 await host.RunAsync();

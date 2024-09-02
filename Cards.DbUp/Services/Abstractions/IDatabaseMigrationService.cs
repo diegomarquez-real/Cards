@@ -8,5 +8,6 @@ namespace Cards.DbUp.Services.Abstractions
 {
     public interface IDatabaseMigrationService
     {
+        void ApplyMSSQLDatabaseMigrations();
     }
 }

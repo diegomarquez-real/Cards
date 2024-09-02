@@ -18,9 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="dbup-core" Version="5.0.87" />
+    <PackageReference Include="dbup-sqlserver" Version="5.0.41" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="NLog" Version="5.3.3" />
     <PackageReference Include="NLog.Extensions.Logging" Version="5.3.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Scripts\" />
   </ItemGroup>
 
 </Project>
