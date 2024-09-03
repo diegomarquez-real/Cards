@@ -1,4 +1,6 @@
 ﻿using DbUp;
+using DbUp.Engine;
+using DbUp.Support;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -30,7 +32,7 @@ namespace Cards.DbUp.Services
                 EnsureDatabase.For.SqlDatabase(_connectionStringsOptions.Value.MssqlConnection);
                 _logger.LogInformation("Applying MSSQL database migrations...");
                 var upgrader = DeployChanges.To.SqlDatabase(_connectionStringsOptions.Value.MssqlConnection)
-                                               .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+                                               .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), script => script.StartsWith("Cards.DbUp.Scripts."), new SqlScriptOptions { ScriptType = ScriptType.RunOnce, RunGroupOrder = 1 })
                                                .LogToConsole()
                                                .Build();
                 var result = upgrader.PerformUpgrade();
