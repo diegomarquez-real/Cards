@@ -17,6 +17,7 @@
     <None Remove="Scripts\Script 6 - Create yugioh power table.sql" />
     <None Remove="Scripts\Script 7 - Create yugioh effect table.sql" />
     <None Remove="Scripts\Script 7 - Create yugioh effectType table.sql" />
+    <None Remove="Scripts\Script 8 - Create yugioh cardEffectTypeAssociation table.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +46,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\Script 7 - Create yugioh effectType table.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\Script 8 - Create yugioh cardEffectTypeAssociation table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
