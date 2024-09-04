@@ -2,6 +2,7 @@ CREATE TABLE [yugioh].[Card](
 	[CardId] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](255) NOT NULL,
 	[Description] [nvarchar](max) NOT NULL,
+	[AttributeId] [uniqueidentifier] NOT NULL,
  CONSTRAINT [Card_pk] PRIMARY KEY CLUSTERED 
 (
 	[CardId] ASC
@@ -11,4 +12,13 @@ CONSTRAINT [UQ_Card_Name] UNIQUE ([Name]) -- Unique constraint to prevent duplic
 GO
 
 ALTER TABLE [yugioh].[Card] ADD  DEFAULT (newid()) FOR [CardId]
+GO
+
+ALTER TABLE [yugioh].[Card]  WITH CHECK ADD  CONSTRAINT [Card_Attribute_AttributeId_fk] FOREIGN KEY([AttributeId])
+REFERENCES [yugioh].[Attribute] ([AttributeId])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [yugioh].[Card] CHECK CONSTRAINT [Card_Attribute_AttributeId_fk]
 GO
