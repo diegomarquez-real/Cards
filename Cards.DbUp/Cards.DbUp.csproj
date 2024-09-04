@@ -14,6 +14,7 @@
     <None Remove="Scripts\Script 3 - Create yugioh attribute table.sql" />
     <None Remove="Scripts\Script 4 - Create yugioh species table.sql" />
     <None Remove="Scripts\Script 5 - Create yugioh card table.sql" />
+    <None Remove="Scripts\Script 6 - Create yugioh power table.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\Script 5 - Create yugioh card table.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\Script 6 - Create yugioh power table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
