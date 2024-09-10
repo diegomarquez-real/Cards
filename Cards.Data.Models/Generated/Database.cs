@@ -24,91 +24,100 @@ namespace Cards.Data.Models
     
 	[TableName("yugioh.Attribute")]
 	[PrimaryKey("AttributeId")]
+	[ExplicitColumns]
     public partial class Attribute  
     {
 		[Key]
-		public Guid AttributeId { get; set; }
-		public string Name { get; set; }
+		[Column] public Guid AttributeId { get; set; }
+		[Column] public string Name { get; set; }
 	}
     
 	[TableName("yugioh.Card")]
 	[PrimaryKey("CardId")]
+	[ExplicitColumns]
     public partial class Card  
     {
 		[Key]
-		public Guid CardId { get; set; }
-		public string Name { get; set; }
-		public string Description { get; set; }
-		public Guid AttributeId { get; set; }
+		[Column] public Guid CardId { get; set; }
+		[Column] public string Name { get; set; }
+		[Column] public string Description { get; set; }
+		[Column] public Guid AttributeId { get; set; }
 	}
     
 	[TableName("yugioh.CardEffectTypeAssociation")]
 	[PrimaryKey("CardEffectTypeAssociationId")]
+	[ExplicitColumns]
     public partial class CardEffectTypeAssociation  
     {
 		[Key]
-		public Guid CardEffectTypeAssociationId { get; set; }
-		public Guid CardId { get; set; }
-		public Guid EffectTypeId { get; set; }
+		[Column] public Guid CardEffectTypeAssociationId { get; set; }
+		[Column] public Guid CardId { get; set; }
+		[Column] public Guid EffectTypeId { get; set; }
 	}
     
 	[TableName("yugioh.CardSetAssociation")]
 	[PrimaryKey("CardSetAssociationId")]
+	[ExplicitColumns]
     public partial class CardSetAssociation  
     {
 		[Key]
-		public Guid CardSetAssociationId { get; set; }
-		public Guid CardId { get; set; }
-		public Guid SetId { get; set; }
+		[Column] public Guid CardSetAssociationId { get; set; }
+		[Column] public Guid CardId { get; set; }
+		[Column] public Guid SetId { get; set; }
 	}
     
 	[TableName("yugioh.CardSpeciesAssociation")]
 	[PrimaryKey("CardSpeciesAssociationId")]
+	[ExplicitColumns]
     public partial class CardSpeciesAssociation  
     {
 		[Key]
-		public Guid CardSpeciesAssociationId { get; set; }
-		public Guid CardId { get; set; }
-		public Guid SpeciesId { get; set; }
+		[Column] public Guid CardSpeciesAssociationId { get; set; }
+		[Column] public Guid CardId { get; set; }
+		[Column] public Guid SpeciesId { get; set; }
 	}
     
 	[TableName("yugioh.EffectType")]
 	[PrimaryKey("EffectTypeId")]
+	[ExplicitColumns]
     public partial class EffectType  
     {
 		[Key]
-		public Guid EffectTypeId { get; set; }
-		public string Name { get; set; }
+		[Column] public Guid EffectTypeId { get; set; }
+		[Column] public string Name { get; set; }
 	}
     
 	[TableName("yugioh.Power")]
 	[PrimaryKey("PowerId")]
+	[ExplicitColumns]
     public partial class Power  
     {
 		[Key]
-		public Guid PowerId { get; set; }
-		public Guid CardId { get; set; }
-		public int Level { get; set; }
-		public int Attack { get; set; }
-		public int Defense { get; set; }
+		[Column] public Guid PowerId { get; set; }
+		[Column] public Guid CardId { get; set; }
+		[Column] public int Level { get; set; }
+		[Column] public int Attack { get; set; }
+		[Column] public int Defense { get; set; }
 	}
     
 	[TableName("yugioh.Set")]
 	[PrimaryKey("SetId")]
+	[ExplicitColumns]
     public partial class Set  
     {
 		[Key]
-		public Guid SetId { get; set; }
-		public string Name { get; set; }
-		public DateTime ReleaseDate { get; set; }
+		[Column] public Guid SetId { get; set; }
+		[Column] public string Name { get; set; }
+		[Column] public DateTime ReleaseDate { get; set; }
 	}
     
 	[TableName("yugioh.Species")]
 	[PrimaryKey("SpeciesId")]
+	[ExplicitColumns]
     public partial class Species  
     {
 		[Key]
-		public Guid SpeciesId { get; set; }
-		public string Name { get; set; }
+		[Column] public Guid SpeciesId { get; set; }
+		[Column] public string Name { get; set; }
 	}
 }

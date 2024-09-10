@@ -10,7 +10,7 @@
 	ClassPrefix = "";
 	ClassSuffix = "";
 	TrackModifiedColumns = false;
-	ExplicitColumns = false;
+	ExplicitColumns = true;
 	NullReferenceTypesEnabled = false;
 	ExcludePrefix = new string[] { }; // Exclude tables by prefix.
 	IncludeViews = true;
@@ -23,7 +23,7 @@
 
 /*
 	// Tweak Schema
-	tables["dbo.SchemaVersions"].Ignore = true;							// To ignore a table
+	tables["tablename"].Ignore = true;							// To ignore a table
 	tables["tablename"].ClassName = "newname";					// To change the class name of a table
 	tables["tablename"]["columnname"].Ignore = true;			// To ignore a column
 	tables["tablename"]["columnname"].PropertyName="newname";	// To change the property name of a column
