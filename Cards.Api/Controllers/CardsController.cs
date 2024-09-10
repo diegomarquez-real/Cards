@@ -8,10 +8,13 @@ namespace Cards.Api.Controllers
     [Produces("application/json")]
     public class CardsController : ControllerBase
     {
+        private readonly ILogger<CardsController> _logger;
         private readonly Services.Abstractions.ICardService _cardService;
 
-        public CardsController(Services.Abstractions.ICardService cardService)
+        public CardsController(ILogger<CardsController> logger,
+            Services.Abstractions.ICardService cardService)
         {
+            _logger = logger;
             _cardService = cardService;
         }
 
@@ -32,7 +35,7 @@ namespace Cards.Api.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Failed To Get Card.");
+                _logger.LogError(ex, "Failed To Get Card.");
 
                 return BadRequest();
             }
@@ -51,7 +54,7 @@ namespace Cards.Api.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Failed To Create Card.");
+                _logger.LogError(ex, "Failed To Create Card.");
 
                 return BadRequest();
             }
@@ -76,7 +79,7 @@ namespace Cards.Api.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Failed To Update Card.");
+                _logger.LogError(ex, "Failed To Update Card.");
 
                 return BadRequest();
             }
