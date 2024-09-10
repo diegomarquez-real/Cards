@@ -36,5 +36,10 @@ namespace Cards.Api.Services
 
             await _cardRepository.UpdateAsync(card);
         }
+
+        public async Task DeleteCardAsync(Guid cardId)
+        {
+            await _cardRepository.DeleteAsync(cardId);
+        }
     }
 }

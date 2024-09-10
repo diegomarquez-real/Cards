@@ -84,5 +84,24 @@ namespace Cards.Api.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpDelete("{id}", Name = "DeleteCard")]
+        [ProducesResponseType(typeof(NoContentResult), 204)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        public async Task<IActionResult> DeleteCardAsync([FromRoute] Guid id)
+        {
+            try
+            {
+                await _cardService.DeleteCardAsync(id);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed To Delete Card.");
+
+                return BadRequest();
+            }
+        }
     }
 }
