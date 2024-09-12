@@ -18,12 +18,12 @@ namespace Cards.Api.Services
         {
             var attribute = await _attributeRepository.FindByIdAsync(attributeId);
 
-            return _mapper.Map<Data.Models.Attribute, Models.AttributeModel>(attribute);
+            return _mapper.Map<Models.AttributeModel>(attribute);
         }
 
         public async Task<Guid> CreateAttributeAsync(Models.Create.CreateAttributeModel createAttributeModel)
         {
-            var attribute = _mapper.Map<Models.Create.CreateAttributeModel, Data.Models.Attribute>(createAttributeModel);
+            var attribute = _mapper.Map<Data.Models.Attribute>(createAttributeModel);
             var result = await _attributeRepository.CreateAsync(attribute);
 
             return result.AttributeId;
@@ -31,7 +31,7 @@ namespace Cards.Api.Services
 
         public async Task UpdateAttributeAsync(Models.AttributeModel attributeModel, Models.Update.UpdateAttributeModel updateAttributeModel)
         {
-            var attribute = _mapper.Map<Models.Update.UpdateAttributeModel, Data.Models.Attribute>(updateAttributeModel);
+            var attribute = _mapper.Map<Data.Models.Attribute>(updateAttributeModel);
             attribute.AttributeId = attributeModel.AttributeId;
 
             await _attributeRepository.UpdateAsync(attribute);
