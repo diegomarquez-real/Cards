@@ -6,6 +6,7 @@
         {
             services.AddScoped<Services.Abstractions.ICardService, Services.CardService>();
             services.AddScoped<Services.Abstractions.IAttributeService, Services.AttributeService>();
+            services.AddScoped<Services.Abstractions.IEffectTypeService, Services.EffectTypeService>();
         }
     }
 }
