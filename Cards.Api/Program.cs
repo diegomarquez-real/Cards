@@ -15,7 +15,7 @@ LogManager.Configuration = new NLogLoggingConfiguration(builder.Configuration.Ge
 builder.Logging.AddNLog(); // Add NLog logging provider.
 builder.Services.AddDataLayer(builder.Configuration); // Register the Data layer.
 builder.Services.AddServices(); // Register common Api Services.
-builder.Services.AddAutoMapper(typeof(Cards.Api.Mapping.CardMappingProfile)); // The actual profile here doesn't matter, just using it to find which assembly our mapping profiles are in.
+builder.Services.AddAutoMapper(typeof(Cards.Api.Mapping.Yugioh.CardMappingProfile)); // The actual profile here doesn't matter, just using it to find which assembly our mapping profiles are in.
 
 var app = builder.Build();
 

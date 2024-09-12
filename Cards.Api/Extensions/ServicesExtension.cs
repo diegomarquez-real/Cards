@@ -4,9 +4,10 @@
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddScoped<Services.Abstractions.ICardService, Services.CardService>();
-            services.AddScoped<Services.Abstractions.IAttributeService, Services.AttributeService>();
-            services.AddScoped<Services.Abstractions.IEffectTypeService, Services.EffectTypeService>();
+            services.AddScoped<Services.Yugioh.Abstractions.ICardService, Services.Yugioh.CardService>();
+            services.AddScoped<Services.Yugioh.Abstractions.IAttributeService, Services.Yugioh.AttributeService>();
+            services.AddScoped<Services.Yugioh.Abstractions.IEffectTypeService, Services.Yugioh.EffectTypeService>();
+            services.AddScoped<Services.Yugioh.Abstractions.ISpeciesService, Services.Yugioh.SpeciesService> ();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Cards.Data.Abstractions.Repositories;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,9 +9,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Data
+namespace Cards.Data.Repositories
 {
-    public class GenericRepository<TEntity, TPrimaryKeyType> : Abstractions.IGenericRepository<TEntity, TPrimaryKeyType> where TEntity : class
+    public class GenericRepository<TEntity, TPrimaryKeyType> : IGenericRepository<TEntity, TPrimaryKeyType> where TEntity : class
     {
         private readonly IDbConnection _dbConnection;
 
@@ -67,7 +68,7 @@ namespace Cards.Data
                 {
                     var columnAttr = property.GetCustomAttribute<ColumnAttribute>();
 
-                    sql += ($"{columnAttr?.Name ?? property.Name} = @{property.Name},");
+                    sql += $"{columnAttr?.Name ?? property.Name} = @{property.Name},";
                 }
 
                 sql = sql.Remove(sql.Length - 1) + " ";
