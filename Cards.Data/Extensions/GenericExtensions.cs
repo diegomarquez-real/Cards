@@ -38,7 +38,7 @@ namespace Cards.Data
                           {
                               var columnAttr = p.GetCustomAttribute<ColumnAttribute>();
 
-                              return columnAttr != null ? columnAttr.Name : p.Name;
+                              return columnAttr != null && !String.IsNullOrEmpty(columnAttr.Name) ? columnAttr.Name : p.Name;
                           }));
 
             return columns;
