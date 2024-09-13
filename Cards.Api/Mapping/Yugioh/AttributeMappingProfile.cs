@@ -9,9 +9,9 @@ namespace Cards.Api.Mapping.Yugioh
     {
         public AttributeMappingProfile()
         {
-            CreateMap<Data.Models.Attribute, AttributeModel>();
-            CreateMap<CreateAttributeModel, Data.Models.Attribute>();
-            CreateMap<UpdateAttributeModel, Data.Models.Attribute>();
+            CreateMap<Data.Models.Yugioh.Attribute, AttributeModel>();
+            CreateMap<CreateAttributeModel, Data.Models.Yugioh.Attribute>();
+            CreateMap<UpdateAttributeModel, Data.Models.Yugioh.Attribute>();
         }
     }
 }

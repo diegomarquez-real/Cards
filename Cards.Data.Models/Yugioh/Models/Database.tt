@@ -1,0 +1,40 @@
+<#@ include file="..\..\PetaPocoGenerator\PetaPoco.Core.ttinclude" #>
+<#
+	// Settings
+	//use connectionstring from app/web.config which will get the connectionstring and the provider name
+		//ConnectionStringName = "";
+	//OR set the connectionstring and provider name manually
+		ConnectionString = "Server=(local);Database=Cards;Trusted_Connection=True;MultipleActiveResultSets=true";
+		ProviderName = "System.Data.SqlClient";
+    Namespace = "Cards.Data.Models.Yugioh";
+	SchemaName = "yugioh";
+    RepoName = "";
+    GenerateOperations = false;
+	GeneratePocos = true;
+	GenerateCommon = false;
+	ClassPrefix = "";
+	ClassSuffix = "";
+	TrackModifiedColumns = false;
+	ExplicitColumns = true;
+	NullReferenceTypesEnabled = false;
+	ExcludePrefix = new string[] { }; // Exclude tables by prefix.
+	IncludeViews = true;
+
+    // Read schema
+	var tables = LoadTables();
+
+/*
+	// Tweak Schema
+	tables["tablename"].Ignore = true;							// To ignore a table
+	tables["tablename"].ClassName = "newname";					// To change the class name of a table
+	tables["tablename"]["columnname"].Ignore = true;			// To ignore a column
+	tables["tablename"]["columnname"].PropertyName="newname";	// To change the property name of a column
+	tables["tablename"]["columnname"].PropertyType="bool";		// To change the property type of a column							
+*/
+
+	// Generate output
+	if (tables.Count>0)
+	{
+#>
+<#@ include file="..\..\PetaPocoGenerator\PetaPoco.Generator.ttinclude" #>
+<# } #>

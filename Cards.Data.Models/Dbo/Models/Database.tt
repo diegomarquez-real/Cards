@@ -1,8 +1,13 @@
-<#@ include file="PetaPoco.Core.ttinclude" #>
+<#@ include file="..\..\PetaPocoGenerator\PetaPoco.Core.ttinclude" #>
 <#
 	// Settings
-	ConnectionStringName = "PetaPoco_T4_ConnectionString";
-    Namespace = "Cards.Data.Models";
+	//use connectionstring from app/web.config which will get the connectionstring and the provider name
+		//ConnectionStringName = "";
+	//OR set the connectionstring and provider name manually
+		ConnectionString = "Server=(local);Database=Cards;Trusted_Connection=True;MultipleActiveResultSets=true";
+		ProviderName = "System.Data.SqlClient";
+    Namespace = "Cards.Data.Models.Dbo";
+	SchemaName = "dbo";
     RepoName = "";
     GenerateOperations = false;
 	GeneratePocos = true;
@@ -34,5 +39,5 @@
 	if (tables.Count>0)
 	{
 #>
-<#@ include file="PetaPoco.Generator.ttinclude" #>
+<#@ include file="..\..\PetaPocoGenerator\PetaPoco.Generator.ttinclude" #>
 <# } #>

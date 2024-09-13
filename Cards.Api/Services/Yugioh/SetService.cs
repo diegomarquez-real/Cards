@@ -23,7 +23,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreateSetAsync(Models.Yugioh.Create.CreateSetModel createSetModel)
         {
-            var set = _mapper.Map<Data.Models.Set>(createSetModel);
+            var set = _mapper.Map<Data.Models.Yugioh.Set>(createSetModel);
             var result = await _setRepository.CreateAsync(set);
 
             return result.SetId;
@@ -31,7 +31,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task UpdateSetAsync(Models.Yugioh.SetModel setModel, Models.Yugioh.Update.UpdateSetModel updateSetModel)
         {
-            var set = _mapper.Map<Data.Models.Set>(updateSetModel);
+            var set = _mapper.Map<Data.Models.Yugioh.Set>(updateSetModel);
             set.SetId = setModel.SetId;
 
             await _setRepository.UpdateAsync(set);

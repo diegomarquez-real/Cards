@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cards.Data.Abstractions.Repositories.Yugioh
 {
-    public interface ISpeciesRepository : IGenericRepository<Models.Species, Guid>
+    public interface ISpeciesRepository : IGenericRepository<Models.Yugioh.Species, Guid>
     {
     }
 }

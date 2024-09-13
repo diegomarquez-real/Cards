@@ -4,10 +4,10 @@
 // 
 // The following connection settings were used to generate this file
 // 
-//     Connection String Name: `PetaPoco_T4_ConnectionString`
+//     Connection String Name: ``
 //     Provider:               `System.Data.SqlClient`
-//     Connection String:      `Data Source=(local);Initial Catalog=Cards;Trusted_Connection=true`
-//     Schema:                 ``
+//     Connection String:      `Server=(local);Database=Cards;Trusted_Connection=True;MultipleActiveResultSets=true`
+//     Schema:                 `yugioh`
 //     Include Views:          `True`
 
 using System;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Web;
 using PetaPoco;
 
-namespace Cards.Data.Models
+namespace Cards.Data.Models.Yugioh
 {
 	
 

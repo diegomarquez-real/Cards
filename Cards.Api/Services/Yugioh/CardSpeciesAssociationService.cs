@@ -24,7 +24,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreateCardSpeciesAssociationAsync(Models.Yugioh.Create.CreateCardSpeciesAssociationModel createCardSpeciesAssociationModel)
         {
-            var cardSpeciesAssociation = _mapper.Map<Data.Models.CardSpeciesAssociation>(createCardSpeciesAssociationModel);
+            var cardSpeciesAssociation = _mapper.Map<Data.Models.Yugioh.CardSpeciesAssociation>(createCardSpeciesAssociationModel);
             var result = await _cardSpeciesAssociationRepository.CreateAsync(cardSpeciesAssociation);
 
             return result.CardSpeciesAssociationId;

@@ -6,8 +6,8 @@ namespace Cards.Api.Mapping.Yugioh
     {
         public CardSetAssociationMappingProfile()
         {
-            CreateMap<Data.Models.CardSetAssociation, Models.Yugioh.CardSetAssociationModel>();
-            CreateMap<Models.Yugioh.Create.CreateCardSetAssociationModel, Data.Models.CardSetAssociation>();
+            CreateMap<Data.Models.Yugioh.CardSetAssociation, Models.Yugioh.CardSetAssociationModel>();
+            CreateMap<Models.Yugioh.Create.CreateCardSetAssociationModel, Data.Models.Yugioh.CardSetAssociation>();
         }
     }
 }

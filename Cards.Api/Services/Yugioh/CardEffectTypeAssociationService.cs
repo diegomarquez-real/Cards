@@ -23,7 +23,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreateCardEffectTypeAssociationAsync(Models.Yugioh.Create.CreateCardEffectTypeAssociationModel createCardEffectTypeAssociationModel)
         {
-            var cardEffectTypeAssociation = _mapper.Map<Data.Models.CardEffectTypeAssociation>(createCardEffectTypeAssociationModel);
+            var cardEffectTypeAssociation = _mapper.Map<Data.Models.Yugioh.CardEffectTypeAssociation>(createCardEffectTypeAssociationModel);
             var result = await _cardEffectTypeAssociationRepository.CreateAsync(cardEffectTypeAssociation);
 
             return result.CardEffectTypeAssociationId;

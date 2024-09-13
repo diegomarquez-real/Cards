@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cards.Data.Repositories.Yugioh
 {
-    public class SetRepository : GenericRepository<Models.Set, Guid>, Abstractions.Repositories.Yugioh.ISetRepository
+    public class SetRepository : GenericRepository<Models.Yugioh.Set, Guid>, Abstractions.Repositories.Yugioh.ISetRepository
     {
         public SetRepository(Abstractions.IDataContext dataContext)
             : base(dataContext)
