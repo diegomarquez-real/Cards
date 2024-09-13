@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Data.Abstractions
+namespace Cards.Data.Abstractions.Repositories
 {
     public interface IGenericRepository<TEntity, TPrimaryKeyType>
     {
