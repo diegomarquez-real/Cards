@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cards.Data.Abstractions.Repositories.Yugioh
 {
-    public interface IEffectTypeRepository : IGenericRepository<Models.EffectType, Guid>
+    public interface IEffectTypeRepository : IGenericRepository<Models.Yugioh.EffectType, Guid>
     {
     }
 }

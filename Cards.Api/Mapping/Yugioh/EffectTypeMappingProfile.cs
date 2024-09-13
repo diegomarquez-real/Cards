@@ -9,9 +9,9 @@ namespace Cards.Api.Mapping.Yugioh
     {
         public EffectTypeMappingProfile()
         {
-            CreateMap<Data.Models.EffectType, EffectTypeModel>();
-            CreateMap<CreateEffectTypeModel, Data.Models.EffectType>();
-            CreateMap<UpdateEffectTypeModel, Data.Models.EffectType>();
+            CreateMap<Data.Models.Yugioh.EffectType, EffectTypeModel>();
+            CreateMap<CreateEffectTypeModel, Data.Models.Yugioh.EffectType>();
+            CreateMap<UpdateEffectTypeModel, Data.Models.Yugioh.EffectType>();
         }
     }
 }

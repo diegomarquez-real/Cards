@@ -27,7 +27,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreateEffectTypeAsync(CreateEffectTypeModel createEffectTypeModel)
         {
-            var effectType = _mapper.Map<Data.Models.EffectType>(createEffectTypeModel);
+            var effectType = _mapper.Map<Data.Models.Yugioh.EffectType>(createEffectTypeModel);
             var result = await _effectTypeRepository.CreateAsync(effectType);
 
             return result.EffectTypeId;
@@ -35,7 +35,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task UpdateEffectTypeAsync(EffectTypeModel effectTypeModel, UpdateEffectTypeModel updateEffectTypeModel)
         {
-            var effectType = _mapper.Map<Data.Models.EffectType>(updateEffectTypeModel);
+            var effectType = _mapper.Map<Data.Models.Yugioh.EffectType>(updateEffectTypeModel);
             effectType.EffectTypeId = effectTypeModel.EffectTypeId;
 
             await _effectTypeRepository.UpdateAsync(effectType);

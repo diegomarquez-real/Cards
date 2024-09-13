@@ -23,7 +23,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreateSpeciesAsync(Models.Yugioh.Create.CreateSpeciesModel createSpeciesModel)
         {
-            var species = _mapper.Map<Data.Models.Species>(createSpeciesModel);
+            var species = _mapper.Map<Data.Models.Yugioh.Species>(createSpeciesModel);
             var result = await _speciesRepository.CreateAsync(species);
 
             return result.SpeciesId;
@@ -31,7 +31,7 @@ namespace Cards.Api.Services.Yugioh
 
         public Task UpdateSpeciesAsync(Models.Yugioh.SpeciesModel speciesModel, Models.Yugioh.Update.UpdateSpeciesModel updateSpeciesModel)
         {
-            var species = _mapper.Map<Data.Models.Species>(updateSpeciesModel);
+            var species = _mapper.Map<Data.Models.Yugioh.Species>(updateSpeciesModel);
             species.SpeciesId = speciesModel.SpeciesId;
 
             return _speciesRepository.UpdateAsync(species);

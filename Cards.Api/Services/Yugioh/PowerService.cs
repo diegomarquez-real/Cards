@@ -23,7 +23,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreatePowerAsync(Models.Yugioh.Create.CreatePowerModel createPowerModel)
         {
-            var power = _mapper.Map<Data.Models.Power>(createPowerModel);
+            var power = _mapper.Map<Data.Models.Yugioh.Power>(createPowerModel);
             var result = await  _powerRepository.CreateAsync(power);
 
             return result.PowerId;
@@ -31,7 +31,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task UpdatePowerAsync(Models.Yugioh.PowerModel powerModel, Models.Yugioh.Update.UpdatePowerModel updatePowerModel)
         {
-            var power = _mapper.Map<Data.Models.Power>(updatePowerModel);
+            var power = _mapper.Map<Data.Models.Yugioh.Power>(updatePowerModel);
             power.PowerId = powerModel.PowerId;
             power.CardId = powerModel.CardId;
 

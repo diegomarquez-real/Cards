@@ -27,7 +27,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreateCardAsync(CreateCardModel createCardModel)
         {
-            var card = _mapper.Map<Data.Models.Card>(createCardModel);
+            var card = _mapper.Map<Data.Models.Yugioh.Card>(createCardModel);
             var result = await _cardRepository.CreateAsync(card);
 
             return result.CardId;
@@ -35,7 +35,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task UpdateCardAsync(CardModel cardModel, UpdateCardModel updateCardModel)
         {
-            var card = _mapper.Map<Data.Models.Card>(updateCardModel);
+            var card = _mapper.Map<Data.Models.Yugioh.Card>(updateCardModel);
             card.CardId = cardModel.CardId;
 
             await _cardRepository.UpdateAsync(card);

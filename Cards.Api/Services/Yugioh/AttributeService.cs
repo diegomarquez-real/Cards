@@ -28,7 +28,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task<Guid> CreateAttributeAsync(CreateAttributeModel createAttributeModel)
         {
-            var attribute = _mapper.Map<Data.Models.Attribute>(createAttributeModel);
+            var attribute = _mapper.Map<Data.Models.Yugioh.Attribute>(createAttributeModel);
             var result = await _attributeRepository.CreateAsync(attribute);
 
             return result.AttributeId;
@@ -36,7 +36,7 @@ namespace Cards.Api.Services.Yugioh
 
         public async Task UpdateAttributeAsync(AttributeModel attributeModel, UpdateAttributeModel updateAttributeModel)
         {
-            var attribute = _mapper.Map<Data.Models.Attribute>(updateAttributeModel);
+            var attribute = _mapper.Map<Data.Models.Yugioh.Attribute>(updateAttributeModel);
             attribute.AttributeId = attributeModel.AttributeId;
 
             await _attributeRepository.UpdateAsync(attribute);

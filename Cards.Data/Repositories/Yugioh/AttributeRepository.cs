@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cards.Data.Repositories.Yugioh
 {
-    public class AttributeRepository : GenericRepository<Models.Attribute, Guid>, Abstractions.Repositories.Yugioh.IAttributeRepository
+    public class AttributeRepository : GenericRepository<Models.Yugioh.Attribute, Guid>, Abstractions.Repositories.Yugioh.IAttributeRepository
     {
         public AttributeRepository(Abstractions.IDataContext dataContext)
             : base(dataContext)

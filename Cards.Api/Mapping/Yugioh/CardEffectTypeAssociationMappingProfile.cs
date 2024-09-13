@@ -6,8 +6,8 @@ namespace Cards.Api.Mapping.Yugioh
     {
         public CardEffectTypeAssociationMappingProfile()
         {
-            CreateMap<Data.Models.CardEffectTypeAssociation, Models.Yugioh.CardEffectTypeAssociationModel>();
-            CreateMap<Models.Yugioh.Create.CreateCardEffectTypeAssociationModel, Data.Models.CardEffectTypeAssociation>();
+            CreateMap<Data.Models.Yugioh.CardEffectTypeAssociation, Models.Yugioh.CardEffectTypeAssociationModel>();
+            CreateMap<Models.Yugioh.Create.CreateCardEffectTypeAssociationModel, Data.Models.Yugioh.CardEffectTypeAssociation>();
         }
     }
 }
