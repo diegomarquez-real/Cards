@@ -11,12 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Generated\Database.tt">
+    <None Update="Dbo\Models\Database.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Database.cs</LastGenOutput>
+    </None>
+    <None Update="Yugioh\Models\Database.tt">
+      <LastGenOutput>Database.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
 
@@ -25,7 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Generated\Database.cs">
+    <Compile Update="Dbo\Models\Database.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Yugioh\Models\Database.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Database.tt</DependentUpon>
