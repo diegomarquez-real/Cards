@@ -4,6 +4,7 @@ namespace Cards.Api.Controllers.Yugioh
 {
     [ApiController]
     [Route("api/yugioh/[controller]")]
+    [ApiExplorerSettings(GroupName = "Yugioh")]
     [Produces("application/json")]
     public class SpeciesController : ControllerBase
     {

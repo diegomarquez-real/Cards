@@ -10,7 +10,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    // Grouped Swagger Documentation for Yugioh.
+    c.SwaggerDoc("Yugioh", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Yugioh API",
+        Version = "v1"
+    });
+
+    // Define Swagger groups.
+    c.DocInclusionPredicate((docName, apiDesc) =>
+    {
+        if (String.IsNullOrEmpty(apiDesc.GroupName))
+            return true;  // Default grouping for controllers without GroupName.
+
+        return docName.Equals(apiDesc.GroupName);
+    });
+});
 LogManager.Configuration = new NLogLoggingConfiguration(builder.Configuration.GetSection("NLog"));
 builder.Logging.AddNLog(); // Add NLog logging provider.
 builder.Services.AddDataLayer(builder.Configuration); // Register the Data layer.
@@ -23,7 +40,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        // Swagger endpoint for the Yugioh group.
+        c.SwaggerEndpoint("/swagger/Yugioh/swagger.json", "Yugioh API v1");
+    });
 }
 
 app.UseHttpsRedirection();
