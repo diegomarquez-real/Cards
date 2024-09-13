@@ -24,7 +24,7 @@
 	var tables = LoadTables();
 
 	// Tweak Schema
-	//tables["SchemaVersions"].Ignore = true;
+	tables["SchemaVersions"].Ignore = true;
 
 /*
 	// Tweak Schema

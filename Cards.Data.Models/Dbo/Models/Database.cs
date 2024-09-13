@@ -21,15 +21,4 @@ namespace Cards.Data.Models.Dbo
 {
 	
 
-    
-	[TableName("dbo.SchemaVersions")]
-	[PrimaryKey("Id")]
-	[ExplicitColumns]
-    public partial class SchemaVersion  
-    {
-		[Key]
-		[Column] public int Id { get; set; }
-		[Column] public string ScriptName { get; set; }
-		[Column] public DateTime Applied { get; set; }
-	}
 }
