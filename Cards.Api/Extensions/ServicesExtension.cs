@@ -10,7 +10,8 @@
             services.AddScoped<Services.Yugioh.Abstractions.ISpeciesService, Services.Yugioh.SpeciesService> ();
             services.AddScoped<Services.Yugioh.Abstractions.ISetService, Services.Yugioh.SetService> ();
             services.AddScoped<Services.Yugioh.Abstractions.IPowerService, Services.Yugioh.PowerService> ();
-            services.AddScoped<Services.Yugioh.Abstractions.ICardSpeciesAssociationService, Services.Yugioh.CardSpeciesAssociationService> ();
+            services.AddScoped<Services.Yugioh.Abstractions.ICardSpeciesAssociationService, Services.Yugioh.CardSpeciesAssociationService>();
+            services.AddScoped<Services.Yugioh.Abstractions.ICardSetAssociationService, Services.Yugioh.CardSetAssociationService>();
         }
     }
 }
