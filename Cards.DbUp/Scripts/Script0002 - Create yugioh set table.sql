@@ -2,6 +2,8 @@ CREATE TABLE [yugioh].[Set](
 	[SetId] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](255) NOT NULL,
 	[ReleaseDate] [date] NOT NULL,
+	[CreatedOn] [datetimeoffset](7) NOT NULL,
+	[UpdatedOn] [datetimeoffset](7) NULL,
  CONSTRAINT [Set_pk] PRIMARY KEY CLUSTERED 
 (
 	[SetId] ASC

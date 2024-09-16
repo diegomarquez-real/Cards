@@ -10,12 +10,15 @@ namespace Cards.Api.Controllers.Yugioh
     {
         private readonly ILogger<SpeciesController> _logger;
         private readonly Services.Yugioh.Abstractions.ISpeciesService _speciesService;
+        private readonly Data.Abstractions.Repositories.Yugioh.ISpeciesRepository _speciesRepository;
 
         public SpeciesController(ILogger<SpeciesController> logger,
-            Services.Yugioh.Abstractions.ISpeciesService speciesService)
+            Services.Yugioh.Abstractions.ISpeciesService speciesService,
+            Data.Abstractions.Repositories.Yugioh.ISpeciesRepository speciesRepository)
         {
             _logger = logger;
             _speciesService = speciesService;
+            _speciesRepository = speciesRepository;
         }
 
         [HttpGet("{id}", Name = "GetSpecies")]
@@ -68,7 +71,7 @@ namespace Cards.Api.Controllers.Yugioh
         {
             try
             {
-                var species = await _speciesService.GetSpeciesAsync(id);
+                var species = await _speciesRepository.FindByIdAsync(id);
 
                 if (species == null)
                     return NotFound();

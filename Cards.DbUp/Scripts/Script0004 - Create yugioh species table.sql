@@ -1,6 +1,8 @@
 CREATE TABLE [yugioh].[Species](
 	[SpeciesId] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](25) NOT NULL,
+	[CreatedOn] [datetimeoffset](7) NOT NULL,
+	[UpdatedOn] [datetimeoffset](7) NULL,
  CONSTRAINT [Species_pk] PRIMARY KEY CLUSTERED 
 (
 	[SpeciesId] ASC

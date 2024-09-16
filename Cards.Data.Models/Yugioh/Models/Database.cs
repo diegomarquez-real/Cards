@@ -30,6 +30,8 @@ namespace Cards.Data.Models.Yugioh
 		[Key]
 		[Column] public Guid AttributeId { get; set; }
 		[Column] public string Name { get; set; }
+		[Column] public DateTimeOffset CreatedOn { get; set; }
+		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
 	[TableName("yugioh.Card")]
@@ -42,6 +44,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public string Name { get; set; }
 		[Column] public string Description { get; set; }
 		[Column] public Guid AttributeId { get; set; }
+		[Column] public DateTimeOffset CreatedOn { get; set; }
+		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
 	[TableName("yugioh.CardEffectTypeAssociation")]
@@ -85,6 +89,8 @@ namespace Cards.Data.Models.Yugioh
 		[Key]
 		[Column] public Guid EffectTypeId { get; set; }
 		[Column] public string Name { get; set; }
+		[Column] public DateTimeOffset CreatedOn { get; set; }
+		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
 	[TableName("yugioh.Power")]
@@ -98,6 +104,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public int Level { get; set; }
 		[Column] public int Attack { get; set; }
 		[Column] public int Defense { get; set; }
+		[Column] public DateTimeOffset CreatedOn { get; set; }
+		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
 	[TableName("yugioh.Set")]
@@ -109,6 +117,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public Guid SetId { get; set; }
 		[Column] public string Name { get; set; }
 		[Column] public DateTime ReleaseDate { get; set; }
+		[Column] public DateTimeOffset CreatedOn { get; set; }
+		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
 	[TableName("yugioh.Species")]
@@ -119,5 +129,7 @@ namespace Cards.Data.Models.Yugioh
 		[Key]
 		[Column] public Guid SpeciesId { get; set; }
 		[Column] public string Name { get; set; }
+		[Column] public DateTimeOffset CreatedOn { get; set; }
+		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
 }

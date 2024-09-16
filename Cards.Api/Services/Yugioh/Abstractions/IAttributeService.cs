@@ -4,7 +4,7 @@
     {
         Task<Models.Yugioh.AttributeModel> GetAttributeAsync(Guid attributeId);
         Task<Guid> CreateAttributeAsync(Models.Yugioh.Create.CreateAttributeModel createAttributeModel);
-        Task UpdateAttributeAsync(Models.Yugioh.AttributeModel attributeModel, Models.Yugioh.Update.UpdateAttributeModel updateAttributeModel);
+        Task UpdateAttributeAsync(Data.Models.Yugioh.Attribute attributeModel, Models.Yugioh.Update.UpdateAttributeModel updateAttributeModel);
         Task DeleteAttributeAsync(Guid attributeId);
     }
 }

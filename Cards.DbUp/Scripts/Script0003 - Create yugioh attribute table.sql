@@ -1,6 +1,8 @@
 CREATE TABLE [yugioh].[Attribute](
 	[AttributeId] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](25) NOT NULL,
+	[CreatedOn] [datetimeoffset](7) NOT NULL,
+	[UpdatedOn] [datetimeoffset](7) NULL,
  CONSTRAINT [Attribute_pk] PRIMARY KEY CLUSTERED 
 (
 	[AttributeId] ASC

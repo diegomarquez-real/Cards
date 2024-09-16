@@ -10,12 +10,15 @@ namespace Cards.Api.Controllers.Yugioh
     {
         private readonly ILogger<PowersController> _logger;
         private readonly Services.Yugioh.Abstractions.IPowerService _powerService;
+        private readonly Data.Abstractions.Repositories.Yugioh.IPowerRepository _powerRepository;
 
         public PowersController(ILogger<PowersController> logger,
-            Services.Yugioh.Abstractions.IPowerService powerService)
+            Services.Yugioh.Abstractions.IPowerService powerService,
+            Data.Abstractions.Repositories.Yugioh.IPowerRepository powerRepository)
         {
             _logger = logger;
             _powerService = powerService;
+            _powerRepository = powerRepository;
         }
 
         [HttpGet("{id}", Name = "GetPower")]
@@ -68,7 +71,7 @@ namespace Cards.Api.Controllers.Yugioh
         {
             try
             {
-                var power = await _powerService.GetPowerAsync(id);
+                var power = await _powerRepository.FindByIdAsync(id);
 
                 if (power == null)
                     return NotFound();

@@ -1,6 +1,8 @@
 CREATE TABLE [yugioh].[EffectType](
 	[EffectTypeId] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](25) NOT NULL,
+	[CreatedOn] [datetimeoffset](7) NOT NULL,
+	[UpdatedOn] [datetimeoffset](7) NULL,
  CONSTRAINT [EffectType_pk] PRIMARY KEY CLUSTERED 
 (
 	[EffectTypeId] ASC

@@ -10,12 +10,15 @@ namespace Cards.Api.Controllers.Yugioh
     {
         private readonly ILogger<CardsController> _logger;
         private readonly Services.Yugioh.Abstractions.ICardService _cardService;
+        private readonly Data.Abstractions.Repositories.Yugioh.ICardRepository _cardRepository;
 
         public CardsController(ILogger<CardsController> logger,
-            Services.Yugioh.Abstractions.ICardService cardService)
+            Services.Yugioh.Abstractions.ICardService cardService,
+            Data.Abstractions.Repositories.Yugioh.ICardRepository cardRepository)
         {
             _logger = logger;
             _cardService = cardService;
+            _cardRepository = cardRepository;
         }
 
         [HttpGet("{id}", Name = "GetCard")]
@@ -68,7 +71,7 @@ namespace Cards.Api.Controllers.Yugioh
         {
             try
             {
-                var card = await _cardService.GetCardAsync(id);
+                var card = await _cardRepository.FindByIdAsync(id);
 
                 if (card == null)
                     return NotFound();

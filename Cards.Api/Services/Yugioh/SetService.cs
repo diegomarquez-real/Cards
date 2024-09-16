@@ -29,10 +29,9 @@ namespace Cards.Api.Services.Yugioh
             return result.SetId;
         }
 
-        public async Task UpdateSetAsync(Models.Yugioh.SetModel setModel, Models.Yugioh.Update.UpdateSetModel updateSetModel)
+        public async Task UpdateSetAsync(Data.Models.Yugioh.Set setModel, Models.Yugioh.Update.UpdateSetModel updateSetModel)
         {
-            var set = _mapper.Map<Data.Models.Yugioh.Set>(updateSetModel);
-            set.SetId = setModel.SetId;
+            var set = _mapper.Map(updateSetModel, setModel);
 
             await _setRepository.UpdateAsync(set);
         }

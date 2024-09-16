@@ -11,7 +11,8 @@ namespace Cards.Api.Mapping.Yugioh
         {
             CreateMap<Data.Models.Yugioh.EffectType, EffectTypeModel>();
             CreateMap<CreateEffectTypeModel, Data.Models.Yugioh.EffectType>();
-            CreateMap<UpdateEffectTypeModel, Data.Models.Yugioh.EffectType>();
+            CreateMap<UpdateEffectTypeModel, Data.Models.Yugioh.EffectType>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }
