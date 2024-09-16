@@ -22,7 +22,7 @@ namespace Cards.Data.Models.Yugioh
 	
 
     
-	[TableName("yugioh.Attribute")]
+	[TableName("[yugioh].[Attribute]")]
 	[PrimaryKey("AttributeId")]
 	[ExplicitColumns]
     public partial class Attribute  
@@ -34,7 +34,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
-	[TableName("yugioh.Card")]
+	[TableName("[yugioh].[Card]")]
 	[PrimaryKey("CardId")]
 	[ExplicitColumns]
     public partial class Card  
@@ -48,7 +48,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
-	[TableName("yugioh.CardEffectTypeAssociation")]
+	[TableName("[yugioh].[CardEffectTypeAssociation]")]
 	[PrimaryKey("CardEffectTypeAssociationId")]
 	[ExplicitColumns]
     public partial class CardEffectTypeAssociation  
@@ -59,7 +59,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public Guid EffectTypeId { get; set; }
 	}
     
-	[TableName("yugioh.CardSetAssociation")]
+	[TableName("[yugioh].[CardSetAssociation]")]
 	[PrimaryKey("CardSetAssociationId")]
 	[ExplicitColumns]
     public partial class CardSetAssociation  
@@ -70,7 +70,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public Guid SetId { get; set; }
 	}
     
-	[TableName("yugioh.CardSpeciesAssociation")]
+	[TableName("[yugioh].[CardSpeciesAssociation]")]
 	[PrimaryKey("CardSpeciesAssociationId")]
 	[ExplicitColumns]
     public partial class CardSpeciesAssociation  
@@ -81,7 +81,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public Guid SpeciesId { get; set; }
 	}
     
-	[TableName("yugioh.EffectType")]
+	[TableName("[yugioh].[EffectType]")]
 	[PrimaryKey("EffectTypeId")]
 	[ExplicitColumns]
     public partial class EffectType  
@@ -93,7 +93,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
-	[TableName("yugioh.Power")]
+	[TableName("[yugioh].[Power]")]
 	[PrimaryKey("PowerId")]
 	[ExplicitColumns]
     public partial class Power  
@@ -108,7 +108,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
-	[TableName("yugioh.Set")]
+	[TableName("[yugioh].[Set]")]
 	[PrimaryKey("SetId")]
 	[ExplicitColumns]
     public partial class Set  
@@ -121,7 +121,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 	}
     
-	[TableName("yugioh.Species")]
+	[TableName("[yugioh].[Species]")]
 	[PrimaryKey("SpeciesId")]
 	[ExplicitColumns]
     public partial class Species  

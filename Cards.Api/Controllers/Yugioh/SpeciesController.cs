@@ -40,7 +40,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Get Species.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Create Species.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Update Species.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Delete Species.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }
