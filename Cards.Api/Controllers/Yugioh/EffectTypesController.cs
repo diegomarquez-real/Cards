@@ -40,7 +40,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Get EffectType.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Create EffectType.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Update EffectType.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Delete EffectType.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

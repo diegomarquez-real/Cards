@@ -40,7 +40,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Get Card.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Create Card.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Update Card.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Delete Card.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

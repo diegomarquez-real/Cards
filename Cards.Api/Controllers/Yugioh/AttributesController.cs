@@ -40,7 +40,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Get Attribute.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Create Attribute.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Update Attribute.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Cards.Api.Controllers.Yugioh
             {
                 _logger.LogError(ex, "Failed To Delete Attribute.");
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }
