@@ -10,12 +10,15 @@ namespace Cards.Api.Controllers.Yugioh
     {
         private readonly ILogger<EffectTypesController> _logger;
         private readonly Services.Yugioh.Abstractions.IEffectTypeService _effectTypeService;
+        private readonly Data.Abstractions.Repositories.Yugioh.IEffectTypeRepository _effectTypeRepository;
 
         public EffectTypesController(ILogger<EffectTypesController> logger,
-            Services.Yugioh.Abstractions.IEffectTypeService effectTypeService)
+            Services.Yugioh.Abstractions.IEffectTypeService effectTypeService,
+            Data.Abstractions.Repositories.Yugioh.IEffectTypeRepository effectTypeRepository)
         {
             _logger = logger;
             _effectTypeService = effectTypeService;
+            _effectTypeRepository = effectTypeRepository;
         }
 
         [HttpGet("{id}", Name = "GetEffectType")]
@@ -68,7 +71,7 @@ namespace Cards.Api.Controllers.Yugioh
         {
             try
             {
-                var effectType = await _effectTypeService.GetEffectTypeAsync(id);
+                var effectType = await _effectTypeRepository.FindByIdAsync(id);
 
                 if (effectType == null)
                     return NotFound();

@@ -49,6 +49,8 @@ namespace Cards.Data.Repositories
         {
             try
             {
+                this.TrySetCreatedOnDate(entity);
+
                 string sql = @$"INSERT INTO {GenericExtensions.GetTableName<TEntity>()} ({GenericExtensions.GetColumns<TEntity>(excludeKey: true)})
                                 OUTPUT INSERTED.*
                                 VALUES ({GenericExtensions.GetPropertyNames<TEntity>(excludeKey: true)})";
@@ -62,6 +64,8 @@ namespace Cards.Data.Repositories
         {
             try
             {
+                this.TrySetUpdatedOnDate(entity);
+
                 string sql = @$"UPDATE {GenericExtensions.GetTableName<TEntity>()} SET ";
 
                 foreach (var property in GenericExtensions.GetProperties<TEntity>(excludeKey: true))
@@ -92,5 +96,30 @@ namespace Cards.Data.Repositories
             }
             catch (Exception) { throw; }
         }
+
+
+        #region Additional Functionality
+
+        private void TrySetCreatedOnDate(object entity)
+        {
+            var createdOnProperty = entity.GetType().GetProperty("CreatedOn");
+
+            if (createdOnProperty == null)
+                return;
+
+            createdOnProperty.SetValue(entity, DateTimeOffset.UtcNow);
+        }
+
+        private void TrySetUpdatedOnDate(object entity)
+        {
+            var updatedOnProperty = entity.GetType().GetProperty("UpdatedOn");
+
+            if (updatedOnProperty == null)
+                return;
+
+            updatedOnProperty.SetValue(entity, DateTimeOffset.UtcNow);
+        }
+
+        #endregion
     }
 }

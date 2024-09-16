@@ -4,7 +4,7 @@
     {
         Task<Models.Yugioh.PowerModel> GetPowerAsync(Guid powerId);
         Task<Guid> CreatePowerAsync(Models.Yugioh.Create.CreatePowerModel createPowerModel);
-        Task UpdatePowerAsync(Models.Yugioh.PowerModel powerModel, Models.Yugioh.Update.UpdatePowerModel updatePowerModel);
+        Task UpdatePowerAsync(Data.Models.Yugioh.Power powerModel, Models.Yugioh.Update.UpdatePowerModel updatePowerModel);
         Task DeletePowerAsync(Guid powerId);
     }
 }

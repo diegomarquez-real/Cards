@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Cards.Data.Models;
 
 namespace Cards.Api.Services.Yugioh
 {

@@ -11,7 +11,8 @@ namespace Cards.Api.Mapping.Yugioh
         {
             CreateMap<Data.Models.Yugioh.Card, CardModel>();
             CreateMap<CreateCardModel, Data.Models.Yugioh.Card>();
-            CreateMap<UpdateCardModel, Data.Models.Yugioh.Card>();
+            CreateMap<UpdateCardModel, Data.Models.Yugioh.Card>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

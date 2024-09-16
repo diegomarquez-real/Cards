@@ -4,6 +4,8 @@ CREATE TABLE [yugioh].[Power](
 	[Level] [int] NOT NULL,
 	[Attack] [int] NOT NULL,
 	[Defense] [int] NOT NULL,
+	[CreatedOn] [datetimeoffset](7) NOT NULL,
+	[UpdatedOn] [datetimeoffset](7) NULL,
  CONSTRAINT [Power_pk] PRIMARY KEY CLUSTERED 
 (
 	[PowerId] ASC

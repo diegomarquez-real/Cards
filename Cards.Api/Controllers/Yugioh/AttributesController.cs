@@ -10,12 +10,15 @@ namespace Cards.Api.Controllers.Yugioh
     {
         private readonly ILogger<AttributesController> _logger;
         private readonly Services.Yugioh.Abstractions.IAttributeService _attributeService;
+        private readonly Data.Abstractions.Repositories.Yugioh.IAttributeRepository _attributeRepository;
 
         public AttributesController(ILogger<AttributesController> logger,
-            Services.Yugioh.Abstractions.IAttributeService attributeService)
+            Services.Yugioh.Abstractions.IAttributeService attributeService,
+            Data.Abstractions.Repositories.Yugioh.IAttributeRepository attributeRepository)
         {
             _logger = logger;
             _attributeService = attributeService;
+            _attributeRepository = attributeRepository;
         }
 
         [HttpGet("{id}", Name = "GetAttribute")]
@@ -68,7 +71,7 @@ namespace Cards.Api.Controllers.Yugioh
         {
             try
             {
-                var attribute = await _attributeService.GetAttributeAsync(id);
+                var attribute = await _attributeRepository.FindByIdAsync(id);
 
                 if (attribute == null)
                     return NotFound();

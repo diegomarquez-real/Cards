@@ -8,7 +8,8 @@ namespace Cards.Api.Mapping.Yugioh
         {
             CreateMap<Data.Models.Yugioh.Species, Models.Yugioh.SpeciesModel>();
             CreateMap<Models.Yugioh.Create.CreateSpeciesModel, Data.Models.Yugioh.Species>();
-            CreateMap<Models.Yugioh.Update.UpdateSpeciesModel, Data.Models.Yugioh.Species>();
+            CreateMap<Models.Yugioh.Update.UpdateSpeciesModel, Data.Models.Yugioh.Species>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

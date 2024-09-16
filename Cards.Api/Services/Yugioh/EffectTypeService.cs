@@ -1,31 +1,27 @@
 ﻿using AutoMapper;
-using Cards.Api.Models.Yugioh;
-using Cards.Api.Models.Yugioh.Create;
-using Cards.Api.Models.Yugioh.Update;
-using Cards.Data.Abstractions.Repositories.Yugioh;
 
 namespace Cards.Api.Services.Yugioh
 {
     public class EffectTypeService : Abstractions.IEffectTypeService
     {
         private readonly IMapper _mapper;
-        private readonly IEffectTypeRepository _effectTypeRepository;
+        private readonly Data.Abstractions.Repositories.Yugioh.IEffectTypeRepository _effectTypeRepository;
 
         public EffectTypeService(IMapper mapper,
-             IEffectTypeRepository effectTypeRepository)
+             Data.Abstractions.Repositories.Yugioh.IEffectTypeRepository effectTypeRepository)
         {
             _mapper = mapper;
             _effectTypeRepository = effectTypeRepository;
         }
 
-        public async Task<EffectTypeModel> GetEffectTypeAsync(Guid effectTypeId)
+        public async Task<Models.Yugioh.EffectTypeModel> GetEffectTypeAsync(Guid effectTypeId)
         {
             var effectType = await _effectTypeRepository.FindByIdAsync(effectTypeId);
 
-            return _mapper.Map<EffectTypeModel>(effectType);
+            return _mapper.Map<Models.Yugioh.EffectTypeModel>(effectType);
         }
 
-        public async Task<Guid> CreateEffectTypeAsync(CreateEffectTypeModel createEffectTypeModel)
+        public async Task<Guid> CreateEffectTypeAsync(Models.Yugioh.Create.CreateEffectTypeModel createEffectTypeModel)
         {
             var effectType = _mapper.Map<Data.Models.Yugioh.EffectType>(createEffectTypeModel);
             var result = await _effectTypeRepository.CreateAsync(effectType);
@@ -33,10 +29,9 @@ namespace Cards.Api.Services.Yugioh
             return result.EffectTypeId;
         }
 
-        public async Task UpdateEffectTypeAsync(EffectTypeModel effectTypeModel, UpdateEffectTypeModel updateEffectTypeModel)
+        public async Task UpdateEffectTypeAsync(Data.Models.Yugioh.EffectType effectTypeModel, Models.Yugioh.Update.UpdateEffectTypeModel updateEffectTypeModel)
         {
-            var effectType = _mapper.Map<Data.Models.Yugioh.EffectType>(updateEffectTypeModel);
-            effectType.EffectTypeId = effectTypeModel.EffectTypeId;
+            var effectType = _mapper.Map(updateEffectTypeModel, effectTypeModel);
 
             await _effectTypeRepository.UpdateAsync(effectType);
         }

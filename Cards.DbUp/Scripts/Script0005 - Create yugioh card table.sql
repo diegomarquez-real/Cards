@@ -3,6 +3,8 @@ CREATE TABLE [yugioh].[Card](
 	[Name] [nvarchar](255) NOT NULL,
 	[Description] [nvarchar](max) NOT NULL,
 	[AttributeId] [uniqueidentifier] NOT NULL,
+	[CreatedOn] [datetimeoffset](7) NOT NULL,
+	[UpdatedOn] [datetimeoffset](7) NULL,
  CONSTRAINT [Card_pk] PRIMARY KEY CLUSTERED 
 (
 	[CardId] ASC

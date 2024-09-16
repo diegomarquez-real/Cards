@@ -29,11 +29,9 @@ namespace Cards.Api.Services.Yugioh
             return result.PowerId;
         }
 
-        public async Task UpdatePowerAsync(Models.Yugioh.PowerModel powerModel, Models.Yugioh.Update.UpdatePowerModel updatePowerModel)
+        public async Task UpdatePowerAsync(Data.Models.Yugioh.Power powerModel, Models.Yugioh.Update.UpdatePowerModel updatePowerModel)
         {
-            var power = _mapper.Map<Data.Models.Yugioh.Power>(updatePowerModel);
-            power.PowerId = powerModel.PowerId;
-            power.CardId = powerModel.CardId;
+            var power = _mapper.Map(updatePowerModel, powerModel);
 
             await _powerRepository.UpdateAsync(power);
         }

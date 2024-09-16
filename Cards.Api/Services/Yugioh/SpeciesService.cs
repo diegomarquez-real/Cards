@@ -29,10 +29,9 @@ namespace Cards.Api.Services.Yugioh
             return result.SpeciesId;
         }
 
-        public Task UpdateSpeciesAsync(Models.Yugioh.SpeciesModel speciesModel, Models.Yugioh.Update.UpdateSpeciesModel updateSpeciesModel)
+        public Task UpdateSpeciesAsync(Data.Models.Yugioh.Species speciesModel, Models.Yugioh.Update.UpdateSpeciesModel updateSpeciesModel)
         {
-            var species = _mapper.Map<Data.Models.Yugioh.Species>(updateSpeciesModel);
-            species.SpeciesId = speciesModel.SpeciesId;
+            var species = _mapper.Map(updateSpeciesModel, speciesModel);
 
             return _speciesRepository.UpdateAsync(species);
         }
