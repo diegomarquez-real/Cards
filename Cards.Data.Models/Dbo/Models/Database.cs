@@ -21,4 +21,20 @@ namespace Cards.Data.Models.Dbo
 {
 	
 
+    
+	[TableName("[dbo].[UserProfile]")]
+	[PrimaryKey("UserProfileId")]
+	[ExplicitColumns]
+    public partial class UserProfile  
+    {
+		[Key]
+		[Column] public Guid UserProfileId { get; set; }
+		[Column] public string Username { get; set; }
+		[Column] public string PasswordHash { get; set; }
+		[Column] public string EmailAddress { get; set; }
+		[Column] public string DisplayName { get; set; }
+		[Column] public bool IsActive { get; set; }
+		[Column] public DateTimeOffset CreatedOn { get; set; }
+		[Column] public DateTimeOffset? UpdatedOn { get; set; }
+	}
 }
