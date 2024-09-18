@@ -13,7 +13,7 @@ namespace Cards.Data.Repositories
 {
     public class GenericRepository<TEntity, TPrimaryKeyType> : IGenericRepository<TEntity, TPrimaryKeyType> where TEntity : class
     {
-        private readonly IDbConnection _dbConnection;
+        protected readonly IDbConnection _dbConnection;
 
         public GenericRepository(Abstractions.IDataContext dataContext)
         {
@@ -100,7 +100,7 @@ namespace Cards.Data.Repositories
 
         #region Additional Functionality
 
-        private void TrySetCreatedOnDate(object entity)
+        protected void TrySetCreatedOnDate(object entity)
         {
             var createdOnProperty = entity.GetType().GetProperty("CreatedOn");
 
@@ -110,7 +110,7 @@ namespace Cards.Data.Repositories
             createdOnProperty.SetValue(entity, DateTimeOffset.UtcNow);
         }
 
-        private void TrySetUpdatedOnDate(object entity)
+        protected void TrySetUpdatedOnDate(object entity)
         {
             var updatedOnProperty = entity.GetType().GetProperty("UpdatedOn");
 
