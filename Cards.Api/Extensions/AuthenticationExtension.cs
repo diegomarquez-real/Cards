@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 
-namespace Cards.Api.Extensions
+namespace Cards.Api
 {
     public static class AuthenticationExtension
     {

@@ -14,6 +14,7 @@ builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerWithAuth(); // Add Swagger with JWT Bearer token authentication.
+builder.Services.AddAuthicationUsingJWT(builder.Configuration); // Add JWT Bearer token authentication.
 LogManager.Configuration = new NLogLoggingConfiguration(builder.Configuration.GetSection("NLog"));
 builder.Logging.AddNLog(); // Add NLog logging provider.
 builder.Services.AddDataLayer(builder.Configuration); // Register the Data layer.
