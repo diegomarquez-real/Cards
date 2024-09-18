@@ -4,6 +4,11 @@
     {
         public static void AddServices(this IServiceCollection services)
         {
+            // Register Identity Services.
+            services.AddTransient<Services.Identity.Abstractions.IUserAuthenticationService, Services.Identity.UserAuthenticationService>();
+            services.AddScoped<Data.Abstractions.IUserContext, Services.Identity.UserContext>();
+            services.AddScoped<Services.Identity.Abstractions.IUserClaimService, Services.Identity.UserClaimService>();
+
             // Register PasswordHasher for UserProfile.
             services.AddTransient<Microsoft.AspNetCore.Identity.IPasswordHasher<Data.Models.Dbo.UserProfile>, Microsoft.AspNetCore.Identity.PasswordHasher<Data.Models.Dbo.UserProfile>>();
 

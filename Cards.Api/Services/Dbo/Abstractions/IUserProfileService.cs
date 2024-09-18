@@ -2,6 +2,7 @@
 {
     public interface IUserProfileService
     {
+        Task<Identity.LoginResult> LoginAsync(Models.Identity.UserProfileLoginModel userProfileLoginModel);
         Task<Models.Dbo.UserProfileModel> GetUserProfileAsync(Guid userProfileId);
         Task<Guid> CreateUserProfileAsync(Models.Dbo.Create.CreateUserProfileModel createUserProfileModel);
         Task UpdateUserProfileAsync(Data.Models.Dbo.UserProfile userProfileModel, Models.Dbo.Update.UpdateUserProfileModel updateUserProfileModel);

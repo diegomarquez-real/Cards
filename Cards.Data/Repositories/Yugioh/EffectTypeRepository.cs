@@ -8,8 +8,9 @@ namespace Cards.Data.Repositories.Yugioh
 {
     public class EffectTypeRepository : GenericRepository<Models.Yugioh.EffectType, Guid>, Abstractions.Repositories.Yugioh.IEffectTypeRepository
     {
-        public EffectTypeRepository(Abstractions.IDataContext dataContext)
-            : base(dataContext)
+        public EffectTypeRepository(Abstractions.IDataContext dataContext,
+            Abstractions.IUserContext userContext)
+            : base(dataContext, userContext)
         {
         }
     }

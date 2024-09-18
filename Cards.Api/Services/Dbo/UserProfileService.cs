@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using System.Reflection;
 
 namespace Cards.Api.Services.Dbo
 {
@@ -25,6 +26,22 @@ namespace Cards.Api.Services.Dbo
             _passwordHasher = passwordHasher;
         }
 
+        public async Task<Identity.LoginResult> LoginAsync(Models.Identity.UserProfileLoginModel userProfileLoginModel)
+        {
+            var userProfile = await _userProfileRepository.FindByUsernameAsync(userProfileLoginModel.Username);
+
+            if (userProfile == null)
+                return new Identity.LoginResult(Identity.LoginResultCode.EmailNotFound);
+
+            // Checks whether the existing password matches with the password used to login.
+            var result = _passwordHasher.VerifyHashedPassword(userProfile, userProfile.PasswordHash, userProfileLoginModel.Password);
+
+            if (result != PasswordVerificationResult.Success)
+                return new Identity.LoginResult(Identity.LoginResultCode.InvalidPassword);
+
+            return new Identity.LoginResult(Identity.LoginResultCode.Success, userProfile);
+        }
+
         public async Task<Models.Dbo.UserProfileModel> GetUserProfileAsync(Guid userProfileId)
         {
             var userProfile = await _userProfileRepository.FindByIdAsync(userProfileId);
@@ -34,7 +51,6 @@ namespace Cards.Api.Services.Dbo
 
         public async Task<Guid> CreateUserProfileAsync(Models.Dbo.Create.CreateUserProfileModel createUserProfileModel)
         {
-
             var userProfile = _mapper.Map<Data.Models.Dbo.UserProfile>(createUserProfileModel);
             var userProfileValidationModel = new Validators.Dbo.Models.UserProfilePasswordModel() 
             {

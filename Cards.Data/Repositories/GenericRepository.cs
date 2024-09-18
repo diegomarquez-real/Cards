@@ -1,9 +1,7 @@
-﻿using Cards.Data.Abstractions.Repositories;
-using Dapper;
+﻿using Dapper;
+using PetaPoco;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,13 +9,16 @@ using System.Threading.Tasks;
 
 namespace Cards.Data.Repositories
 {
-    public class GenericRepository<TEntity, TPrimaryKeyType> : IGenericRepository<TEntity, TPrimaryKeyType> where TEntity : class
+    public class GenericRepository<TEntity, TPrimaryKeyType> : Abstractions.Repositories.IGenericRepository<TEntity, TPrimaryKeyType> where TEntity : class
     {
-        protected readonly IDbConnection _dbConnection;
+        protected readonly System.Data.IDbConnection _dbConnection;
+        private readonly Abstractions.IUserContext _userContext;
 
-        public GenericRepository(Abstractions.IDataContext dataContext)
+        public GenericRepository(Abstractions.IDataContext dataContext,
+            Abstractions.IUserContext userContext)
         {
             _dbConnection = dataContext.CreateConnection();
+            _userContext = userContext;
         }
 
         public async Task<TEntity> FindByIdAsync(TPrimaryKeyType entityId)
@@ -49,6 +50,7 @@ namespace Cards.Data.Repositories
         {
             try
             {
+                this.TrySetCreatedBy(entity);
                 this.TrySetCreatedOnDate(entity);
 
                 string sql = @$"INSERT INTO {GenericExtensions.GetTableName<TEntity>()} ({GenericExtensions.GetColumns<TEntity>(excludeKey: true)})
@@ -64,6 +66,7 @@ namespace Cards.Data.Repositories
         {
             try
             {
+                this.TrySetUpdatedBy(entity);
                 this.TrySetUpdatedOnDate(entity);
 
                 string sql = @$"UPDATE {GenericExtensions.GetTableName<TEntity>()} SET ";
@@ -97,7 +100,6 @@ namespace Cards.Data.Repositories
             catch (Exception) { throw; }
         }
 
-
         #region Additional Functionality
 
         protected void TrySetCreatedOnDate(object entity)
@@ -118,6 +120,26 @@ namespace Cards.Data.Repositories
                 return;
 
             updatedOnProperty.SetValue(entity, DateTimeOffset.UtcNow);
+        }
+
+        protected void TrySetCreatedBy(object entity)
+        {
+            var createdByProperty = entity.GetType().GetProperty("CreatedBy");
+
+            if (createdByProperty == null)
+                return;
+
+            createdByProperty.SetValue(entity, _userContext.CurrentUserIdentifier);
+        }
+
+        protected void TrySetUpdatedBy(object entity)
+        {
+            var updatedByProperty = entity.GetType().GetProperty("UpdatedBy");
+
+            if (updatedByProperty == null)
+                return;
+
+            updatedByProperty.SetValue(entity, _userContext.CurrentUserIdentifier);
         }
 
         #endregion

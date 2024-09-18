@@ -1,23 +1,52 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cards.Api.Controllers.Dbo
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "Dbo")]
     [Produces("application/json")]
     public class UserProfilesController : ControllerBase
     {
         private readonly ILogger<UserProfilesController> _logger;
         private readonly Services.Dbo.Abstractions.IUserProfileService _userProfileService;
         private readonly Data.Abstractions.Repositories.Dbo.IUserProfileRepository _userProfileRepository;
+        private readonly Services.Identity.Abstractions.IUserAuthenticationService _userAuthenticationService;
 
         public UserProfilesController(ILogger<UserProfilesController> logger,
             Services.Dbo.Abstractions.IUserProfileService userProfileService,
-            Data.Abstractions.Repositories.Dbo.IUserProfileRepository userProfileRepository)
+            Data.Abstractions.Repositories.Dbo.IUserProfileRepository userProfileRepository,
+            Services.Identity.Abstractions.IUserAuthenticationService userAuthenticationService)
         {
             _logger = logger;
             _userProfileService = userProfileService;
             _userProfileRepository = userProfileRepository;
+            _userAuthenticationService = userAuthenticationService;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Authenticate")]
+        [ProducesResponseType(typeof(Models.Identity.AuthTokenModel), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(UnauthorizedResult), 401)]
+        public async Task<IActionResult> Authenticate([FromBody] Models.Identity.UserProfileLoginModel userProfileLoginModel)
+        {
+            try
+            {
+                var authTokenModel = await _userAuthenticationService.AuthenticateAsync(userProfileLoginModel);
+
+                if (authTokenModel == null)
+                    return Unauthorized();
+
+                return Ok(authTokenModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed To Authenticate.");
+
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}", Name = "GetUserProfile")]
