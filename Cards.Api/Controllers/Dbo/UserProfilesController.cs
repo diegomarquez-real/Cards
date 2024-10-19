@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cards.Api.Controllers.Dbo
 {
+    
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiExplorerSettings(GroupName = "Dbo")]
     [Produces("application/json")]

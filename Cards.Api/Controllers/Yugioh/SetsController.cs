@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cards.Api.Controllers.Yugioh
 {
     [ApiController]
+    [Authorize]
     [Route("api/yugioh/[controller]")]
     [ApiExplorerSettings(GroupName = "Yugioh")]
     [Produces("application/json")]
