@@ -12,26 +12,6 @@ namespace Cards.Api
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Events = new JwtBearerEvents()
-                {
-                    OnTokenValidated = context =>
-                    {
-                        var claimService = ServiceProvider.Current.GetRequiredService<IUserClaimService>();
-
-                        // Add the access_token as a claim, as we may actually need it.
-                        var accessToken = context.SecurityToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
-                        if (accessToken != null)
-                        {
-                            if (context.Principal?.Identity != null && context.Principal.Identity is ClaimsIdentity identity)
-                            {
-                                identity.AddClaim(claimService.BuildSessionKeyClaim(accessToken.RawData));
-                            }       
-                        }
-
-                        return Task.CompletedTask;
-                    }
-                };
-
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidIssuer = configuration["JWTSettings:Issuer"],

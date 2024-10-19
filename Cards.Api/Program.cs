@@ -3,12 +3,10 @@ using Cards.Api;
 using NLog.Extensions.Logging;
 using NLog;
 using FluentValidation;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -22,8 +20,6 @@ builder.Services.AddServices(); // Register common Api Services.
 builder.Services.AddOptions(builder.Configuration); // Register common Api Options.
 builder.Services.AddAutoMapper(typeof(Cards.Api.Mapping.Yugioh.CardMappingProfile)); // The actual profile here doesn't matter, just using it to find which assembly our mapping profiles are in.
 builder.Services.AddValidatorsFromAssemblyContaining<Cards.Api.Validators.Yugioh.SetValidator>();
-
-Cards.Api.ServiceProvider.Current = builder.Services.BuildServiceProvider();
 
 var app = builder.Build();
 
@@ -41,9 +37,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
