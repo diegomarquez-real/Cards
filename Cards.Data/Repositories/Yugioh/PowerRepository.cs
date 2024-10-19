@@ -8,8 +8,9 @@ namespace Cards.Data.Repositories.Yugioh
 {
     public class PowerRepository : GenericRepository<Models.Yugioh.Power, Guid>, Abstractions.Repositories.Yugioh.IPowerRepository
     {
-        public PowerRepository(Abstractions.IDataContext dataContext)
-            : base(dataContext)
+        public PowerRepository(Abstractions.IDataContext dataContext,
+            Abstractions.IUserContext userContext)
+            : base(dataContext, userContext)
         {
         }
     }

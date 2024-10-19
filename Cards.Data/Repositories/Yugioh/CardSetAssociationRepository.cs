@@ -8,8 +8,9 @@ namespace Cards.Data.Repositories.Yugioh
 {
     public class CardSetAssociationRepository : GenericRepository<Models.Yugioh.CardSetAssociation, Guid>, Abstractions.Repositories.Yugioh.ICardSetAssociationRepository
     {
-        public CardSetAssociationRepository(Abstractions.IDataContext dataContext)
-            : base(dataContext)
+        public CardSetAssociationRepository(Abstractions.IDataContext dataContext,
+            Abstractions.IUserContext userContext)
+            : base(dataContext, userContext)
         {
         }
     }

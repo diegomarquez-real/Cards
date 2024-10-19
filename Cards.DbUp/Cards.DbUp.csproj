@@ -20,16 +20,27 @@
     <None Remove="Scripts\Script 7 - Create yugioh effectType table.sql" />
     <None Remove="Scripts\Script 8 - Create yugioh cardEffectTypeAssociation table.sql" />
     <None Remove="Scripts\Script 9 - Create yugioh cardSetAssociation table.sql" />
+    <None Remove="Scripts\Script0001 - Create userProfile table.sql" />
     <None Remove="Scripts\Script0001 - Create yugioh schema.sql" />
+    <None Remove="Scripts\Script0002 - Create yugioh schema.sql" />
     <None Remove="Scripts\Script0002 - Create yugioh set table.sql" />
     <None Remove="Scripts\Script0003 - Create yugioh attribute table.sql" />
+    <None Remove="Scripts\Script0003 - Create yugioh set table.sql" />
+    <None Remove="Scripts\Script0004 - Create yugioh attribute table.sql" />
     <None Remove="Scripts\Script0004 - Create yugioh species table.sql" />
     <None Remove="Scripts\Script0005 - Create yugioh card table.sql" />
+    <None Remove="Scripts\Script0005 - Create yugioh species table.sql" />
+    <None Remove="Scripts\Script0006 - Create yugioh card table.sql" />
     <None Remove="Scripts\Script0006 - Create yugioh power table.sql" />
     <None Remove="Scripts\Script0007 - Create yugioh effectType table.sql" />
+    <None Remove="Scripts\Script0007 - Create yugioh power table.sql" />
     <None Remove="Scripts\Script0008 - Create yugioh cardEffectTypeAssociation table.sql" />
+    <None Remove="Scripts\Script0008 - Create yugioh effectType table.sql" />
+    <None Remove="Scripts\Script0009 - Create yugioh cardEffectTypeAssociation table.sql" />
     <None Remove="Scripts\Script0009 - Create yugioh cardSetAssociation table.sql" />
+    <None Remove="Scripts\Script0010 - Create yugioh cardSetAssociation table.sql" />
     <None Remove="Scripts\Script0010 - Create yugioh cardSpeciesAssociation table.sql" />
+    <None Remove="Scripts\Script0011 - Create yugioh cardSpeciesAssociation table.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,34 +50,37 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\Script0001 - Create yugioh schema.sql">
+    <EmbeddedResource Include="Scripts\Script0001 - Create userProfile table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0002 - Create yugioh set table.sql">
+    <EmbeddedResource Include="Scripts\Script0002 - Create yugioh schema.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0003 - Create yugioh attribute table.sql">
+    <EmbeddedResource Include="Scripts\Script0003 - Create yugioh set table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0004 - Create yugioh species table.sql">
+    <EmbeddedResource Include="Scripts\Script0004 - Create yugioh attribute table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0005 - Create yugioh card table.sql">
+    <EmbeddedResource Include="Scripts\Script0005 - Create yugioh species table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0006 - Create yugioh power table.sql">
+    <EmbeddedResource Include="Scripts\Script0006 - Create yugioh card table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0007 - Create yugioh effectType table.sql">
+    <EmbeddedResource Include="Scripts\Script0007 - Create yugioh power table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0008 - Create yugioh cardEffectTypeAssociation table.sql">
+    <EmbeddedResource Include="Scripts\Script0008 - Create yugioh effectType table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0009 - Create yugioh cardSetAssociation table.sql">
+    <EmbeddedResource Include="Scripts\Script0009 - Create yugioh cardEffectTypeAssociation table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\Script0010 - Create yugioh cardSpeciesAssociation table.sql">
+    <EmbeddedResource Include="Scripts\Script0010 - Create yugioh cardSetAssociation table.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\Script0011 - Create yugioh cardSpeciesAssociation table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
