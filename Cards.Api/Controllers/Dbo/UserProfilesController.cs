@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cards.Api.Controllers.Dbo
 {
-    
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
@@ -74,6 +73,7 @@ namespace Cards.Api.Controllers.Dbo
             }
         }
 
+        [AllowAnonymous]
         [HttpPost(Name = "CreateUserProfile")]
         [ProducesResponseType(typeof(Guid), 201)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
