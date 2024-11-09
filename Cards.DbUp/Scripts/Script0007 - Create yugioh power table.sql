@@ -6,6 +6,8 @@ CREATE TABLE [yugioh].[Power](
 	[Defense] [int] NOT NULL,
 	[CreatedOn] [datetimeoffset](7) NOT NULL,
 	[UpdatedOn] [datetimeoffset](7) NULL,
+	[CreatedBy] [uniqueidentifier] NOT NULL,
+	[UpdatedBy] [uniqueidentifier] NULL,
  CONSTRAINT [Power_pk] PRIMARY KEY CLUSTERED 
 (
 	[PowerId] ASC
@@ -14,14 +16,28 @@ CONSTRAINT [UQ_Power_CardId] UNIQUE ([CardId]) -- Unique constraint to prevent d
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [yugioh].[Power] ADD  DEFAULT (newid()) FOR [PowerId]
+ALTER TABLE [yugioh].[Power] ADD DEFAULT (newid()) FOR [PowerId]
 GO
 
-ALTER TABLE [yugioh].[Power]  WITH CHECK ADD  CONSTRAINT [Power_Card_CardId_fk] FOREIGN KEY([CardId])
+ALTER TABLE [yugioh].[Power] WITH CHECK ADD CONSTRAINT [Power_Card_CardId_fk] FOREIGN KEY([CardId])
 REFERENCES [yugioh].[Card] ([CardId])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[Power] CHECK CONSTRAINT [Power_Card_CardId_fk]
+GO
+
+ALTER TABLE [yugioh].[Power] WITH CHECK ADD CONSTRAINT [Power_UserProfile_CreatedBy_fk] FOREIGN KEY([CreatedBy])
+REFERENCES [dbo].[UserProfile] ([UserProfileId])
+GO
+
+ALTER TABLE [yugioh].[Power] CHECK CONSTRAINT [Power_UserProfile_CreatedBy_fk]
+GO
+
+ALTER TABLE [yugioh].[Power] WITH CHECK ADD CONSTRAINT [Power_UserProfile_UpdatedBy_fk] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserProfile] ([UserProfileId])
+GO
+
+ALTER TABLE [yugioh].[Power] CHECK CONSTRAINT [Power_UserProfile_UpdatedBy_fk]
 GO

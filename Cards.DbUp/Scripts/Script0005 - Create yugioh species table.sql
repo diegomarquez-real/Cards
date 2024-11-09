@@ -3,6 +3,8 @@ CREATE TABLE [yugioh].[Species](
 	[Name] [nvarchar](25) NOT NULL,
 	[CreatedOn] [datetimeoffset](7) NOT NULL,
 	[UpdatedOn] [datetimeoffset](7) NULL,
+	[CreatedBy] [uniqueidentifier] NOT NULL,
+	[UpdatedBy] [uniqueidentifier] NULL,
  CONSTRAINT [Species_pk] PRIMARY KEY CLUSTERED 
 (
 	[SpeciesId] ASC
@@ -11,5 +13,19 @@ CONSTRAINT [UQ_Species_Name] UNIQUE ([Name]) -- Unique constraint to prevent dup
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [yugioh].[Species] ADD  DEFAULT (newid()) FOR [SpeciesId]
+ALTER TABLE [yugioh].[Species] ADD DEFAULT (newid()) FOR [SpeciesId]
+GO
+
+ALTER TABLE [yugioh].[Species] WITH CHECK ADD CONSTRAINT [Species_UserProfile_CreatedBy_fk] FOREIGN KEY([CreatedBy])
+REFERENCES [dbo].[UserProfile] ([UserProfileId])
+GO
+
+ALTER TABLE [yugioh].[Species] CHECK CONSTRAINT [Species_UserProfile_CreatedBy_fk]
+GO
+
+ALTER TABLE [yugioh].[Species] WITH CHECK ADD CONSTRAINT [Species_UserProfile_UpdatedBy_fk] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserProfile] ([UserProfileId])
+GO
+
+ALTER TABLE [yugioh].[Species] CHECK CONSTRAINT [Species_UserProfile_UpdatedBy_fk]
 GO
