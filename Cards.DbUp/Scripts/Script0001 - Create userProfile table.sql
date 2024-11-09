@@ -22,5 +22,5 @@ CREATE TABLE [dbo].[UserProfile](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[UserProfile] ADD  DEFAULT (newid()) FOR [UserProfileId]
+ALTER TABLE [dbo].[UserProfile] ADD DEFAULT (newid()) FOR [UserProfileId]
 GO

@@ -3,6 +3,8 @@ CREATE TABLE [yugioh].[Attribute](
 	[Name] [nvarchar](25) NOT NULL,
 	[CreatedOn] [datetimeoffset](7) NOT NULL,
 	[UpdatedOn] [datetimeoffset](7) NULL,
+	[CreatedBy] [uniqueidentifier] NOT NULL,
+	[UpdatedBy] [uniqueidentifier] NULL,
  CONSTRAINT [Attribute_pk] PRIMARY KEY CLUSTERED 
 (
 	[AttributeId] ASC
@@ -11,5 +13,19 @@ CONSTRAINT [UQ_Attribute_Name] UNIQUE ([Name]) -- Unique constraint to prevent d
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [yugioh].[Attribute] ADD  DEFAULT (newid()) FOR [AttributeId]
+ALTER TABLE [yugioh].[Attribute] ADD DEFAULT (newid()) FOR [AttributeId]
+GO
+
+ALTER TABLE [yugioh].[Attribute] WITH CHECK ADD CONSTRAINT [Attribute_UserProfile_CreatedBy_fk] FOREIGN KEY([CreatedBy])
+REFERENCES [dbo].[UserProfile] ([UserProfileId])
+GO
+
+ALTER TABLE [yugioh].[Attribute] CHECK CONSTRAINT [Attribute_UserProfile_CreatedBy_fk]
+GO
+
+ALTER TABLE [yugioh].[Attribute] WITH CHECK ADD CONSTRAINT [Attribute_UserProfile_UpdatedBy_fk] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserProfile] ([UserProfileId])
+GO
+
+ALTER TABLE [yugioh].[Attribute] CHECK CONSTRAINT [Attribute_UserProfile_UpdatedBy_fk]
 GO
