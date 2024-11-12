@@ -14,7 +14,7 @@ var yugiohService = host.Services.GetService<Cards.WebScraper.Services.Abstracti
 
 if(yugiohService != null)
 {
-    await yugiohService.GetRecentCardsAsync();
+    await yugiohService.AddCardsFullAsync();
 }
 
 await host.RunAsync();

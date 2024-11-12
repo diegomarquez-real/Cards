@@ -13,6 +13,7 @@ namespace Cards.WebScraper
         public static void AddOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<Options.AppSettingsOptions>(configuration.GetSection("AppSettings"));
+            services.Configure<Options.DefaultCredentialsOptions>(configuration.GetSection("DefaultCredentials"));
         }
     }
 }
