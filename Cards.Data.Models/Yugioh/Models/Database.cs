@@ -32,6 +32,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public string Name { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
+		[Column] public Guid CreatedBy { get; set; }
+		[Column] public Guid? UpdatedBy { get; set; }
 	}
     
 	[TableName("[yugioh].[Card]")]
@@ -46,6 +48,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public Guid AttributeId { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
+		[Column] public Guid CreatedBy { get; set; }
+		[Column] public Guid? UpdatedBy { get; set; }
 	}
     
 	[TableName("[yugioh].[CardEffectTypeAssociation]")]
@@ -91,6 +95,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public string Name { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
+		[Column] public Guid CreatedBy { get; set; }
+		[Column] public Guid? UpdatedBy { get; set; }
 	}
     
 	[TableName("[yugioh].[Power]")]
@@ -106,6 +112,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public int Defense { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
+		[Column] public Guid CreatedBy { get; set; }
+		[Column] public Guid? UpdatedBy { get; set; }
 	}
     
 	[TableName("[yugioh].[Set]")]
@@ -119,6 +127,8 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public DateTime ReleaseDate { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
+		[Column] public Guid CreatedBy { get; set; }
+		[Column] public Guid? UpdatedBy { get; set; }
 	}
     
 	[TableName("[yugioh].[Species]")]
@@ -131,5 +141,7 @@ namespace Cards.Data.Models.Yugioh
 		[Column] public string Name { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
+		[Column] public Guid CreatedBy { get; set; }
+		[Column] public Guid? UpdatedBy { get; set; }
 	}
 }
