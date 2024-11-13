@@ -13,7 +13,7 @@ namespace Cards.WebScraper.Services
             _options = options; 
         }
 
-        public async Task AddCardsFullAsync()
+        public void AddCardsFull()
         {
             Uri uri = new Uri(_options.Value.YugiohDbUrl);
             string baseUrl = uri.GetLeftPart(UriPartial.Authority);
