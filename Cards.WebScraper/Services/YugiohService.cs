@@ -1,7 +1,5 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.Extensions.Options;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using System.Web;
 
 namespace Cards.WebScraper.Services
@@ -9,63 +7,29 @@ namespace Cards.WebScraper.Services
     public class YugiohService : Abstractions.IYugiohService
     {
         private readonly IOptions<Options.AppSettingsOptions> _options;
-        private readonly IWebDriver _driver;
 
         public YugiohService(IOptions<Options.AppSettingsOptions> options)
         {
-            _options = options;
-            _driver = new ChromeDriver();   
+            _options = options; 
         }
 
-        public async Task AddCardsFullAsync()
+        public void AddCardsFull()
         {
-
             Uri uri = new Uri(_options.Value.YugiohDbUrl);
-            // Get the base part of the URL
             string baseUrl = uri.GetLeftPart(UriPartial.Authority);
-
-
-            await _driver.Navigate().GoToUrlAsync(uri);
-            // Look for the tab row consisting of ["Sort by Release Date", "Products", "Perks/Bundles"]
-            var tabLink = _driver.FindElement(By.ClassName("tablink"));
-            // Look for the actual link specific to the "Products" tab.
-            var productsLink = tabLink.FindElements(By.TagName("li"))
-                                      .FirstOrDefault(x => 
-                                          x.FindElements(By.TagName("span"))
-                                           .FirstOrDefault(x => x.Text.Equals("Products")) != null
-                                      );
-
-            if (productsLink == null)
-                return;
-
-            productsLink.Click();
-            var currentPageHtml = new HtmlDocument();
-            currentPageHtml.LoadHtml(_driver.PageSource);
-            var packHtmlNodes = currentPageHtml.DocumentNode.SelectNodes("//div[@id=\"list_title_1\"]//div[contains(@class, \"list_body\")]//div[contains(@class, \"pack\")]//input[contains(@class, \"link_value\")]");
-            // Create a list of pack URLs to navigate to.
+            var currentWebHtml = new HtmlWeb();
+            var currentPageHtml = currentWebHtml.Load(uri.OriginalString);
+            var packHtmlNodes = currentPageHtml.DocumentNode.SelectNodes("//div[@id=\"card_list_1\"]//div[@id=\"list_title_1\"]//div[contains(@class, \"list_body\")]//div[contains(@class, \"pack\")]//input[contains(@class, \"link_value\")]");
             var packUrls = packHtmlNodes.Select(x => HttpUtility.HtmlDecode(baseUrl + x.Attributes["value"].Value)).ToList();
             var cards = new List<CardLineItem>();
 
             for (int i = 0; i < packUrls.Count; i++)
             {
-                if(_driver.WindowHandles.Count > 1)
-                {
-                    // If there are multiple tabs open I'm assuming that I'm in the card list page.
-                    // Navigate to the pack URL in the current tab.
-                    await _driver.Navigate().GoToUrlAsync(packUrls[i]);
-                }
-                else
-                {
-                    // If there is only one tab open I'm assuming that I'm in the products page.
-                    // Open a new tab and navigate to the pack URL.
-                    await _driver.NavigateNewTabAsync(packUrls[i]);
-                }
-                currentPageHtml.LoadHtml(_driver.PageSource);
+                currentWebHtml.Load(packUrls[i]);
+                currentPageHtml = currentWebHtml.Load(packUrls[i]);
                 var cardHtmlNodes = currentPageHtml.DocumentNode.SelectNodes("//div[@id=\"card_list\"]//div[contains(@class, \"t_row\")]");
                 cards.AddRange(this.BuildCards(cardHtmlNodes));
             }
-
-            _driver.Quit();
         }
 
         private List<CardLineItem> BuildCards(HtmlNodeCollection cardHtmlNodes)
