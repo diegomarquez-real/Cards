@@ -11,6 +11,7 @@ builder.Services.AddServices(); // Register services for DI.
 using IHost host = builder.Build();
 
 var yugiohService = host.Services.GetService<Cards.WebScraper.Services.Abstractions.IYugiohService>();
+var progressService = host.Services.GetService<Cards.WebScraper.Services.Abstractions.IProgressService>();
 
 if(yugiohService != null)
 {

@@ -7,10 +7,13 @@ namespace Cards.WebScraper.Services
     public class YugiohService : Abstractions.IYugiohService
     {
         private readonly IOptions<Options.AppSettingsOptions> _options;
+        private readonly Abstractions.IProgressService _progressService;
 
-        public YugiohService(IOptions<Options.AppSettingsOptions> options)
+        public YugiohService(IOptions<Options.AppSettingsOptions> options,
+            Abstractions.IProgressService progressService)
         {
-            _options = options; 
+            _options = options;
+            _progressService = progressService;
         }
 
         public void AddCardsFull()
@@ -29,6 +32,7 @@ namespace Cards.WebScraper.Services
                 currentPageHtml = currentWebHtml.Load(packUrls[i]);
                 var cardHtmlNodes = currentPageHtml.DocumentNode.SelectNodes("//div[@id=\"card_list\"]//div[contains(@class, \"t_row\")]");
                 cards.AddRange(this.BuildCards(cardHtmlNodes));
+                _progressService.ProgressBar(i + 1, packUrls.Count);
             }
         }
 
