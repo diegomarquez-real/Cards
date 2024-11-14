@@ -11,7 +11,8 @@ namespace Cards.WebScraper
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddScoped<Services.Abstractions.IYugiohService, Services.YugiohService>();
+            services.AddTransient<Services.Abstractions.IYugiohService, Services.YugiohService>();
+            services.AddTransient<Services.Abstractions.IProgressService, Services.ProgressService>();
         }
     }
 }
