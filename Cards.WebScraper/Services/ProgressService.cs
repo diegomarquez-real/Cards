@@ -18,20 +18,11 @@ namespace Cards.WebScraper.Services
             Console.CursorLeft = 1;
             float currentBarPercent = ((float)progressBarSize / total) * current;
 
-            for (int i = 0; i < currentBarPercent; i++)
+            for (int i = 1; i < currentBarPercent; i++)
             {
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.CursorLeft = ++position;
-
-                if (i == currentBarPercent - 1)
-                {
-                    Console.CursorLeft = 1;
-                    Console.Write(" ");
-                }
-                else
-                {
-                    Console.Write(" ");
-                }
+                Console.Write(" ");
             }
 
             int currentPercent = (int)((float)current / total * 100);
