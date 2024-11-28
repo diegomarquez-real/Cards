@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Data.Abstractions", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{2D8B098D-8365-4152-8951-8B2CF56AC3D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Data.DependencyInjection", "Cards.Data.DependencyInjection\Cards.Data.DependencyInjection.csproj", "{B0DD77B1-A72A-4E12-A5D3-66BF0B23DEC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Data.IoC", "Cards.Data.DependencyInjection\Cards.Data.IoC.csproj", "{B0DD77B1-A72A-4E12-A5D3-66BF0B23DEC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cards.Api.Models", "Cards.Api.Models\Cards.Api.Models.csproj", "{C255CBD1-8002-4085-A5E5-AB8D562FCA46}"
 EndProject

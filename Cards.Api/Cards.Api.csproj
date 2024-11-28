@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cards.Api.Models\Cards.Api.Models.csproj" />
-    <ProjectReference Include="..\Cards.Data.DependencyInjection\Cards.Data.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Cards.Data.DependencyInjection\Cards.Data.IoC.csproj" />
     <ProjectReference Include="..\Cards.Data.Models\Cards.Data.Models.csproj" />
   </ItemGroup>
 
