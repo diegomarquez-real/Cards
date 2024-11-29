@@ -12,7 +12,7 @@ using IHost host = builder.Build();
 
 var yugiohService = host.Services.GetService<Cards.WebScraper.Services.Abstractions.IYugiohService>();
 
-if(yugiohService != null)
+if (yugiohService != null)
 {
     yugiohService.AddCardsFull();
 }

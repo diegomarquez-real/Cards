@@ -9,5 +9,6 @@ namespace Cards.WebScraper.Options
     public class AppSettingsOptions
     {
         public string YugiohDbUrl { get; set; }
+        public string ApiBaseUrl { get; set; }
     }
 }

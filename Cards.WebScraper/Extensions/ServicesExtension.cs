@@ -15,10 +15,10 @@ namespace Cards.WebScraper
         {
             services.AddTransient<Services.Abstractions.IYugiohService, Services.YugiohService>();
             services.AddTransient<Services.Abstractions.IProgressService, Services.ProgressService>();
-            services.AddApiClient(config =>
-            {
-                config.ApiBaseUrl = configuration.GetRequiredSection("AppSettings:apiBaseUrl").Value ?? String.Empty;
-            });
+            services.AddTransient<Identity.Abstractions.ISessionService, Identity.SessionService>();
+            services.AddTransient<Api.Client.Abstractions.Identity.IAuthTokenProvider, Identity.AuthTokenProvider>();
+            services.AddTransient<Api.Client.Abstractions.Settings.IApiClientSettings, Settings.ApiClientSettings>();
+            services.AddApiClient();
         }
     }
 }

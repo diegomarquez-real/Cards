@@ -11,32 +11,9 @@ namespace Cards.Api.Client.IoC
 {
     public static class ApiClientExtension
     {
-        public static void AddApiClient(this IServiceCollection services, Action<Configuration> config)
+        public static void AddApiClient(this IServiceCollection services)
         {
-            var opts = new Configuration();
-            config(opts);
-
-            services.Configure<Options.ApiClientSettings>(x =>
-            {
-                x.ApiBaseUrl = opts.ApiBaseUrl;
-            });
-
-            services.AddTransient<Abstractions.IUserProfileClient, UserProfileClient>();
-
-            FlurlHttp.ConfigureClientForUrl(opts.ApiBaseUrl)
-                .BeforeCall(x =>
-                {
-
-                })
-                .AfterCall(x =>
-                {
-
-                })
-                .WithHeaders(new 
-                {
-                    Accept = "application/json"
-                });
-                               
+            services.AddTransient<Abstractions.Clients.Dbo.IUserProfileClient, Clients.Dbo.UserProfileClient>();                     
         }
     }
 }

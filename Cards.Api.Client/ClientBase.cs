@@ -1,5 +1,6 @@
 ﻿using Flurl;
 using Flurl.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,28 +13,45 @@ namespace Cards.Api.Client
     public abstract class ClientBase
     {
         private readonly Enums.SchemaType _schemaType;
-        private readonly IOptions<Options.ApiClientSettings> _options;
+        private readonly Abstractions.Settings.IApiClientSettings _apiClientSettings;
+        private readonly Abstractions.Identity.IAuthTokenProvider _authTokenProvider;
 
         protected ClientBase(Enums.SchemaType schemaType, 
-            IOptions<Options.ApiClientSettings> options)
+            Abstractions.Settings.IApiClientSettings apiClientSettings,
+            ILogger logger)
         {
             _schemaType = schemaType;
-            _options = options;
+            _apiClientSettings = apiClientSettings;
+            _authTokenProvider = apiClientSettings.AuthTokenProvider;
+
+            FlurlHttp.ConfigureClientForUrl(_apiClientSettings.ApiBaseUrl)
+                .BeforeCall(x =>
+                {
+                })
+                .AfterCall(x =>
+                {
+                })
+                .WithHeaders(new
+                {
+                    Accept = "application/json"
+                });
         }
 
         public abstract string Name { get; }
 
         protected IFlurlRequest BuildUrlWithAuth()
         {
-            return _options.Value.ApiBaseUrl
+            var authToken = _authTokenProvider.GetAuthToken();
+
+            return _apiClientSettings.ApiBaseUrl
                 .AppendPathSegment(this.AppendSchema(_schemaType))
                 .AppendPathSegment(this.Name)
-                .WithOAuthBearerToken(String.Empty);
+                .WithOAuthBearerToken(authToken?.Token ?? String.Empty);
         }
 
         protected Url BuildUrlWithoutAuth()
         {
-            return _options.Value.ApiBaseUrl
+            return _apiClientSettings.ApiBaseUrl
                 .AppendPathSegment(this.AppendSchema(_schemaType))
                 .AppendPathSegment(this.Name);
         }
