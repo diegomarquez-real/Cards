@@ -8,6 +8,6 @@ namespace Cards.Api.Client.Abstractions.Clients.Dbo
 {
     public interface IUserProfileClient
     {
-        Task<Models.Identity.AuthTokenModel> Authenticate(Models.Identity.UserProfileLoginModel userProfileLoginModel);
+        Task<Models.Identity.AuthTokenModel> AuthenticateAsync(Models.Identity.UserProfileLoginModel userProfileLoginModel);
     }
 }

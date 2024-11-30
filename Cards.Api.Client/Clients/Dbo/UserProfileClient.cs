@@ -19,9 +19,9 @@ namespace Cards.Api.Client.Clients.Dbo
 
         public override string Name => "UserProfiles";
 
-        public Task<Models.Identity.AuthTokenModel> Authenticate(Models.Identity.UserProfileLoginModel userProfileLoginModel)
+        public Task<Models.Identity.AuthTokenModel> AuthenticateAsync(Models.Identity.UserProfileLoginModel userProfileLoginModel)
         {
-            return BuildUrlWithAuth()
+            return BuildUrlWithoutAuth()
                 .AppendPathSegment("authenticate")
                 .PostJsonAsync(userProfileLoginModel)
                 .ReceiveJson<Models.Identity.AuthTokenModel>();

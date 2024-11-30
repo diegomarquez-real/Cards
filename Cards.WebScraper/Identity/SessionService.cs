@@ -26,7 +26,7 @@ namespace Cards.WebScraper.Identity
         {
             // If the username and password are the default credentials, return the default token
             // TODO: Implement a custom login credentials.
-            var authTokenModel = await _userProfileClient.Authenticate(new Api.Models.Identity.UserProfileLoginModel()
+            var authTokenModel = await _userProfileClient.AuthenticateAsync(new Api.Models.Identity.UserProfileLoginModel()
             {
                 Username = _options.Value.Username,
                 Password = _options.Value.Password
