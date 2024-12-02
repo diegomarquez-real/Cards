@@ -15,7 +15,7 @@ namespace Cards.Api.Client
             switch(value)
             {
                 case Enums.SchemaType.Dbo:
-                    return "Dbo";
+                    return String.Empty;
                 case Enums.SchemaType.Yugioh:
                     return "Yugioh";
                 default:

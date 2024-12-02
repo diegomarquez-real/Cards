@@ -13,7 +13,7 @@
 
         public System.Security.Claims.Claim BuildUserProfileIdClaim(Guid userId)
         {
-            return new System.Security.Claims.Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub, userId.ToString());
+            return new System.Security.Claims.Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sid, userId.ToString());
         }
 
         public Guid GetCurrentUserProfileIdThrowIfMissing()
@@ -25,7 +25,7 @@
 
         public Guid? GetCurrentUserProfileId()
         {
-            var idClaim = this.GetClaimByType(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub);
+            var idClaim = this.GetClaimByType(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sid);
 
             if (idClaim == null)
                 return null;

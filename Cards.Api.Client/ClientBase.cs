@@ -24,17 +24,17 @@ namespace Cards.Api.Client
             _apiClientSettings = apiClientSettings;
             _authTokenProvider = apiClientSettings.AuthTokenProvider;
 
-            FlurlHttp.ConfigureClientForUrl(_apiClientSettings.ApiBaseUrl)
-                .BeforeCall(x =>
-                {
-                })
-                .AfterCall(x =>
-                {
-                })
-                .WithHeaders(new
-                {
-                    Accept = "application/json"
-                });
+            //FlurlHttp.ConfigureClientForUrl(_apiClientSettings.ApiBaseUrl)
+            //    .BeforeCall(x =>
+            //    {
+            //    })
+            //    .AfterCall(x =>
+            //    {
+            //    })
+            //    .WithHeaders(new
+            //    {
+            //        Accept = "application/json"
+            //    });
         }
 
         public abstract string Name { get; }
@@ -44,7 +44,7 @@ namespace Cards.Api.Client
             var authToken = _authTokenProvider.GetAuthToken();
 
             return _apiClientSettings.ApiBaseUrl
-                .AppendPathSegment(this.AppendSchema(_schemaType))
+                .AppendPathSegment(_schemaType.ToSchemaString())
                 .AppendPathSegment(this.Name)
                 .WithOAuthBearerToken(authToken?.Token ?? String.Empty);
         }
@@ -52,21 +52,8 @@ namespace Cards.Api.Client
         protected Url BuildUrlWithoutAuth()
         {
             return _apiClientSettings.ApiBaseUrl
-                .AppendPathSegment(this.AppendSchema(_schemaType))
+                .AppendPathSegment(_schemaType.ToSchemaString())
                 .AppendPathSegment(this.Name);
-        }
-
-        private string AppendSchema(Enums.SchemaType schemaType)
-        {
-            switch (schemaType)
-            {
-                case Enums.SchemaType.Dbo:
-                    return String.Empty;
-                case Enums.SchemaType.Yugioh:
-                    return "Yugioh";
-                default:
-                    return String.Empty;
-            }
         }
     }
 }

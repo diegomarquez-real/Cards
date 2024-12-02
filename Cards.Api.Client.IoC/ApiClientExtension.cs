@@ -14,6 +14,7 @@ namespace Cards.Api.Client.IoC
         public static void AddApiClient(this IServiceCollection services)
         {
             services.AddTransient<Abstractions.Clients.Dbo.IUserProfileClient, Clients.Dbo.UserProfileClient>();                     
+            services.AddTransient<Abstractions.Clients.Yugioh.IAttributeClient, Clients.Yugioh.AttributeClient>();                     
         }
     }
 }
