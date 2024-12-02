@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.WebScraper.Options
+namespace Cards.Api.Client.Options
 {
-    public class AppSettingsOptions
+    public class ApiClientOptions
     {
-        public string YugiohDbUrl { get; set; }
         public string ApiBaseUrl { get; set; }
     }
 }
