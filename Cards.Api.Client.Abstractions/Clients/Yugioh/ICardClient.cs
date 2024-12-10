@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Cards.Api.Client.Abstractions.Clients.Yugioh
 {
-    public interface IAttributeClient
+    public interface ICardClient
     {
-        Task<Guid> CreateAttributeAsync(Models.Yugioh.Create.CreateAttributeModel createAttributeModel);
+        Task<Guid> CreateCardAsync(Models.Yugioh.Create.CreateCardModel createCardModel);
     }
 }

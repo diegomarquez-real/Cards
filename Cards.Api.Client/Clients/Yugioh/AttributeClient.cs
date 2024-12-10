@@ -18,7 +18,7 @@ namespace Cards.Api.Client.Clients.Yugioh
 
         public override string Name => "Attributes";
 
-        public Task<Guid> CreateAttributeAsync(Api.Models.Yugioh.Create.CreateAttributeModel createAttributeModel)
+        public Task<Guid> CreateAttributeAsync(Models.Yugioh.Create.CreateAttributeModel createAttributeModel)
         {
             return BuildUrlWithAuth()
                 .PostJsonAsync(createAttributeModel)
