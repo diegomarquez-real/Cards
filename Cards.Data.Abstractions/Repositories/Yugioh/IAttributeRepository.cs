@@ -8,5 +8,6 @@ namespace Cards.Data.Abstractions.Repositories.Yugioh
 {
     public interface IAttributeRepository : IGenericRepository<Models.Yugioh.Attribute, Guid>
     {
+        Task<Models.Yugioh.Attribute?> FindByNameAsync(string attributeName);
     }
 }

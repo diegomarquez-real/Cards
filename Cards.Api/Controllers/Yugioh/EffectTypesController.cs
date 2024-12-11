@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace Cards.Api.Controllers.Yugioh
 {
@@ -32,6 +33,29 @@ namespace Cards.Api.Controllers.Yugioh
             try
             {
                 var effectType = await _effectTypeService.GetEffectTypeAsync(id);
+
+                if (effectType == null)
+                    return NotFound();
+
+                return Ok(effectType);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed To Get EffectType.");
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("name/{name}", Name = "GetEffectTypeByName")]
+        [ProducesResponseType(typeof(Models.Yugioh.EffectTypeModel), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        public async Task<IActionResult> GetEffectTypeByNameAsync([FromRoute] string name)
+        {
+            try
+            {
+                var effectType = await _effectTypeService.GetEffectTypeByNameAsync(name);
 
                 if (effectType == null)
                     return NotFound();

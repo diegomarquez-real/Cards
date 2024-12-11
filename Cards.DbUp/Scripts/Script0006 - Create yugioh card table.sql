@@ -20,8 +20,6 @@ GO
 
 ALTER TABLE [yugioh].[Card] WITH CHECK ADD CONSTRAINT [Card_Attribute_AttributeId_fk] FOREIGN KEY([AttributeId])
 REFERENCES [yugioh].[Attribute] ([AttributeId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[Card] CHECK CONSTRAINT [Card_Attribute_AttributeId_fk]

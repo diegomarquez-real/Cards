@@ -25,6 +25,13 @@ namespace Cards.Api.Services.Yugioh
             return _mapper.Map<Models.Yugioh.AttributeModel>(attribute);
         }
 
+        public async Task<Models.Yugioh.AttributeModel> GetAttributeByNameAsync(string attributeName)
+        {
+            var attribute = await _attributeRepository.FindByNameAsync(attributeName);
+
+            return _mapper.Map<Models.Yugioh.AttributeModel>(attribute);
+        }
+
         public async Task<Guid> CreateAttributeAsync(Models.Yugioh.Create.CreateAttributeModel createAttributeModel)
         {
             var attribute = _mapper.Map<Data.Models.Yugioh.Attribute>(createAttributeModel);

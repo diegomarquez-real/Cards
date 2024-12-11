@@ -19,8 +19,6 @@ GO
 
 ALTER TABLE [yugioh].[CardSpeciesAssociation]  WITH CHECK ADD  CONSTRAINT [CardSpeciesAssociation_Card_CardId_fk] FOREIGN KEY([CardId])
 REFERENCES [yugioh].[Card] ([CardId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[CardSpeciesAssociation] CHECK CONSTRAINT [CardSpeciesAssociation_Card_CardId_fk]
@@ -28,8 +26,6 @@ GO
 
 ALTER TABLE [yugioh].[CardSpeciesAssociation]  WITH CHECK ADD  CONSTRAINT [CardSpeciesAssociation_Species_SpeciesId_fk] FOREIGN KEY([SpeciesId])
 REFERENCES [yugioh].[Species] ([SpeciesId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[CardSpeciesAssociation] CHECK CONSTRAINT [CardSpeciesAssociation_Species_SpeciesId_fk]

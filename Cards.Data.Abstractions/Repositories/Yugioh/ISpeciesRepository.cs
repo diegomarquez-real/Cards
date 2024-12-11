@@ -8,5 +8,6 @@ namespace Cards.Data.Abstractions.Repositories.Yugioh
 {
     public interface ISpeciesRepository : IGenericRepository<Models.Yugioh.Species, Guid>
     {
+        Task<Models.Yugioh.Species?> FindByNameAsync(string speciesName);
     }
 }
