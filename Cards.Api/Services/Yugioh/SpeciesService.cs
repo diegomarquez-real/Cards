@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cards.Data.Models.Yugioh;
 using FluentValidation;
 
 namespace Cards.Api.Services.Yugioh
@@ -21,6 +22,13 @@ namespace Cards.Api.Services.Yugioh
         public async Task<Models.Yugioh.SpeciesModel> GetSpeciesAsync(Guid speciesId)
         {
             var species = await _speciesRepository.FindByIdAsync(speciesId);
+
+            return _mapper.Map<Models.Yugioh.SpeciesModel>(species);
+        }
+
+        public async Task<Models.Yugioh.SpeciesModel> GetSpeciesByNameAsync(string speciesName)
+        {
+            var species = await _speciesRepository.FindByNameAsync(speciesName);
 
             return _mapper.Map<Models.Yugioh.SpeciesModel>(species);
         }

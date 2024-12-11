@@ -46,6 +46,29 @@ namespace Cards.Api.Controllers.Yugioh
             }
         }
 
+        [HttpGet("name/{name}", Name = "GetCardByName")]
+        [ProducesResponseType(typeof(Models.Yugioh.CardModel), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        public async Task<IActionResult> GetCardByNameAsync([FromRoute] string name)
+        {
+            try
+            {
+                var card = await _cardService.GetCardByNameAsync(name);
+
+                if (card == null)
+                    return NotFound();
+
+                return Ok(card);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed To Get Card.");
+
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost(Name = "CreateCard")]
         [ProducesResponseType(typeof(Guid), 201)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]

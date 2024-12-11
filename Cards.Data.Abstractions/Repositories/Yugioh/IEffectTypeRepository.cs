@@ -8,5 +8,6 @@ namespace Cards.Data.Abstractions.Repositories.Yugioh
 {
     public interface IEffectTypeRepository : IGenericRepository<Models.Yugioh.EffectType, Guid>
     {
+        Task<Models.Yugioh.EffectType?> FindByNameAsync(string effectTypeName);
     }
 }

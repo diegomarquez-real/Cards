@@ -3,6 +3,7 @@
     public interface ICardService
     {
         Task<Models.Yugioh.CardModel> GetCardAsync(Guid cardId);
+        Task<Models.Yugioh.CardModel> GetCardByNameAsync(string cardName);
         Task<Guid> CreateCardAsync(Models.Yugioh.Create.CreateCardModel createCardModel);
         Task UpdateCardAsync(Data.Models.Yugioh.Card cardModel, Models.Yugioh.Update.UpdateCardModel updateCardModel);
         Task DeleteCardAsync(Guid cardId);

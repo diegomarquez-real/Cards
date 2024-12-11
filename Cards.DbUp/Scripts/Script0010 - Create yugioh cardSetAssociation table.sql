@@ -15,8 +15,6 @@ GO
 
 ALTER TABLE [yugioh].[CardSetAssociation]  WITH CHECK ADD  CONSTRAINT [CardSetAssociation_Card_CardId_fk] FOREIGN KEY([CardId])
 REFERENCES [yugioh].[Card] ([CardId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[CardSetAssociation] CHECK CONSTRAINT [CardSetAssociation_Card_CardId_fk]
@@ -24,8 +22,6 @@ GO
 
 ALTER TABLE [yugioh].[CardSetAssociation]  WITH CHECK ADD  CONSTRAINT [CardSetAssociation_Set_SetId_fk] FOREIGN KEY([SetId])
 REFERENCES [yugioh].[Set] ([SetId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[CardSetAssociation] CHECK CONSTRAINT [CardSetAssociation_Set_SetId_fk]

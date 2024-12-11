@@ -21,8 +21,6 @@ GO
 
 ALTER TABLE [yugioh].[Power] WITH CHECK ADD CONSTRAINT [Power_Card_CardId_fk] FOREIGN KEY([CardId])
 REFERENCES [yugioh].[Card] ([CardId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[Power] CHECK CONSTRAINT [Power_Card_CardId_fk]

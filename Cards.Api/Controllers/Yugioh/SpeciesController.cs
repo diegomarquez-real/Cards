@@ -46,6 +46,29 @@ namespace Cards.Api.Controllers.Yugioh
             }
         }
 
+        [HttpGet("name/{name}", Name = "GetSpeciesByName")]
+        [ProducesResponseType(typeof(Models.Yugioh.SpeciesModel), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        public async Task<IActionResult> GetSpeciesByNameAsync([FromRoute] string name)
+        {
+            try
+            {
+                var species = await _speciesService.GetSpeciesByNameAsync(name);
+
+                if (species == null)
+                    return NotFound();
+
+                return Ok(species);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed To Get Species.");
+
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost(Name = "CreateSpecies")]
         [ProducesResponseType(typeof(Guid), 201)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]

@@ -25,6 +25,11 @@ namespace Cards.Api.Services.Yugioh
             return _mapper.Map<Models.Yugioh.EffectTypeModel>(effectType);
         }
 
+        public Task<Models.Yugioh.EffectTypeModel> GetEffectTypeByNameAsync(string effectTypeName)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Guid> CreateEffectTypeAsync(Models.Yugioh.Create.CreateEffectTypeModel createEffectTypeModel)
         {
             var effectType = _mapper.Map<Data.Models.Yugioh.EffectType>(createEffectTypeModel);

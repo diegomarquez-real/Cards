@@ -15,8 +15,6 @@ GO
 
 ALTER TABLE [yugioh].[CardEffectTypeAssociation]  WITH CHECK ADD  CONSTRAINT [CardEffectTypeAssociation_Card_CardId_fk] FOREIGN KEY([CardId])
 REFERENCES [yugioh].[Card] ([CardId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[CardEffectTypeAssociation] CHECK CONSTRAINT [CardEffectTypeAssociation_Card_CardId_fk]
@@ -24,8 +22,6 @@ GO
 
 ALTER TABLE [yugioh].[CardEffectTypeAssociation]  WITH CHECK ADD  CONSTRAINT [CardEffectTypeAssociation_EffectType_EffectTypeId_fk] FOREIGN KEY([EffectTypeId])
 REFERENCES [yugioh].[EffectType] ([EffectTypeId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [yugioh].[CardEffectTypeAssociation] CHECK CONSTRAINT [CardEffectTypeAssociation_EffectType_EffectTypeId_fk]

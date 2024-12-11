@@ -46,6 +46,29 @@ namespace Cards.Api.Controllers.Yugioh
             }
         }
 
+        [HttpGet("name/{name}", Name = "GetAttributeByName")]
+        [ProducesResponseType(typeof(Models.Yugioh.AttributeModel), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        public async Task<IActionResult> GetAttributeAsync([FromRoute] string name)
+        {
+            try
+            {
+                var attribute = await _attributeService.GetAttributeByNameAsync(name);
+
+                if (attribute == null)
+                    return NotFound();
+
+                return Ok(attribute);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed To Get Attribute.");
+
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost(Name = "CreateAttribute")]
         [ProducesResponseType(typeof(Guid), 201)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
