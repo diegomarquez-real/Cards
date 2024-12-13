@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Clients.Yugioh
+namespace Cards.Api.Client.Yugioh
 {
-    public class CardClient : ClientBase, Abstractions.Clients.Yugioh.ICardClient
+    public class CardClient : ClientBase, Abstractions.Yugioh.ICardClient
     {
         public CardClient(Abstractions.Settings.IApiClientSettings apiClientSettings,
             ILogger<CardClient> logger)
@@ -17,6 +17,13 @@ namespace Cards.Api.Client.Clients.Yugioh
         }
 
         public override string Name => "Cards";
+
+        public Task<Models.Yugioh.CardModel> GetCardByNameAsync(string cardName)
+        {
+            return BuildUrlWithAuth()
+                .AppendPathSegments("name", cardName)
+                .GetJsonAsync<Models.Yugioh.CardModel>();
+        }
 
         public Task<Guid> CreateCardAsync(Models.Yugioh.Create.CreateCardModel createCardModel)
         {

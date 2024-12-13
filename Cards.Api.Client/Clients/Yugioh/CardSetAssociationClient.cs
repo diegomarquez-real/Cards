@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Clients.Yugioh
+namespace Cards.Api.Client.Yugioh
 {
-    public class CardSetAssociationClient : ClientBase, Abstractions.Clients.Yugioh.ICardSetAssociationClient
+    public class CardSetAssociationClient : ClientBase, Abstractions.Yugioh.ICardSetAssociationClient
     {
         public CardSetAssociationClient(Abstractions.Settings.IApiClientSettings apiClientSettings,
             ILogger<CardSetAssociationClient> logger)

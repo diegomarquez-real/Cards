@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Abstractions.Clients.Dbo
+namespace Cards.Api.Client.Abstractions.Dbo
 {
     public interface IUserProfileClient
     {

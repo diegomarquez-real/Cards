@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cards.Data.Models.Yugioh;
 using FluentValidation;
 
 namespace Cards.Api.Services.Yugioh
@@ -21,6 +22,13 @@ namespace Cards.Api.Services.Yugioh
         public async Task<Models.Yugioh.SetModel> GetSetAsync(Guid setId)
         {
             var set = await _setRepository.FindByIdAsync(setId);
+
+            return _mapper.Map<Models.Yugioh.SetModel>(set);
+        }
+
+        public async Task<Models.Yugioh.SetModel> GetSetByNameAsync(string setName)
+        {
+            var set = await _setRepository.FindByNameAsync(setName);
 
             return _mapper.Map<Models.Yugioh.SetModel>(set);
         }

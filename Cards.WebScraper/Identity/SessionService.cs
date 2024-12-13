@@ -10,11 +10,11 @@ namespace Cards.WebScraper.Identity
     public class SessionService : Abstractions.ISessionService
     {
         private readonly IOptions<Options.DefaultCredentialsOptions> _options;
-        private readonly Api.Client.Abstractions.Clients.Dbo.IUserProfileClient _userProfileClient;
+        private readonly Api.Client.Abstractions.Dbo.IUserProfileClient _userProfileClient;
         private readonly Api.Client.Abstractions.Identity.IAuthTokenProvider _authTokenProvider;
 
         public SessionService(IOptions<Options.DefaultCredentialsOptions> options,
-            Api.Client.Abstractions.Clients.Dbo.IUserProfileClient userProfileClient,
+            Api.Client.Abstractions.Dbo.IUserProfileClient userProfileClient,
             Api.Client.Abstractions.Identity.IAuthTokenProvider authTokenProvider)
         {
             _options = options;

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Clients.Yugioh
+namespace Cards.Api.Client.Yugioh
 {
-    public class PowerClient : ClientBase, Abstractions.Clients.Yugioh.IPowerClient
+    public class PowerClient : ClientBase, Abstractions.Yugioh.IPowerClient
     {
         public PowerClient(Abstractions.Settings.IApiClientSettings apiClientSettings,
             ILogger<PowerClient> logger)

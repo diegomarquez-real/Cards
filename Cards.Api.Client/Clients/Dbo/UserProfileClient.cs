@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Clients.Dbo
+namespace Cards.Api.Client.Dbo
 {
-    public class UserProfileClient : ClientBase, Abstractions.Clients.Dbo.IUserProfileClient
+    public class UserProfileClient : ClientBase, Abstractions.Dbo.IUserProfileClient
     {
         public UserProfileClient(Abstractions.Settings.IApiClientSettings apiClientSettings,
             ILogger<UserProfileClient> logger)

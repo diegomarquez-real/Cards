@@ -50,7 +50,7 @@ namespace Cards.Api.Controllers.Yugioh
         [ProducesResponseType(typeof(Models.Yugioh.AttributeModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
-        public async Task<IActionResult> GetAttributeAsync([FromRoute] string name)
+        public async Task<IActionResult> GetAttributeByNameAsync([FromRoute] string name)
         {
             try
             {

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Clients.Yugioh
+namespace Cards.Api.Client.Yugioh
 {
-    public class SpeciesClient : ClientBase, Abstractions.Clients.Yugioh.ISpeciesClient
+    public class SpeciesClient : ClientBase, Abstractions.Yugioh.ISpeciesClient
     {
         public SpeciesClient(Abstractions.Settings.IApiClientSettings apiClientSettings,
             ILogger<SpeciesClient> logger)
@@ -17,6 +17,13 @@ namespace Cards.Api.Client.Clients.Yugioh
         }
 
         public override string Name => "Species";
+
+        public Task<Models.Yugioh.SpeciesModel> GetSpeciesByNameAsync(string speciesName)
+        {
+            return BuildUrlWithAuth()
+                .AppendPathSegments("name", speciesName)
+                .GetJsonAsync<Models.Yugioh.SpeciesModel>();
+        }
 
         public Task<Guid> CreateSpeciesAsync(Models.Yugioh.Create.CreateSpeciesModel createSpeciesModel)
         {
