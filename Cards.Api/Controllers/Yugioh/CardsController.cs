@@ -49,7 +49,7 @@ namespace Cards.Api.Controllers.Yugioh
         [HttpGet("name/{name}", Name = "GetCardByName")]
         [ProducesResponseType(typeof(Models.Yugioh.CardModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
-        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(typeof(NoContentResult), 204)]
         public async Task<IActionResult> GetCardByNameAsync([FromRoute] string name)
         {
             try
@@ -57,7 +57,7 @@ namespace Cards.Api.Controllers.Yugioh
                 var card = await _cardService.GetCardByNameAsync(name);
 
                 if (card == null)
-                    return NotFound();
+                    return NoContent();
 
                 return Ok(card);
             }

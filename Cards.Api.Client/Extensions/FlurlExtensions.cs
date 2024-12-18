@@ -1,4 +1,5 @@
-﻿using Flurl.Http;
+﻿using Flurl;
+using Flurl.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,15 @@ namespace Cards.Api.Client.Extensions
             .WithHeaders(new
             {
                 Accept = "application/json"
+            })
+            .WithSettings(x =>
+            {
+                x.JsonSerializer = new Flurl.Http.Configuration.DefaultJsonSerializer(new System.Text.Json.JsonSerializerOptions()
+                {
+                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+                    PropertyNameCaseInsensitive = true,
+                    IgnoreReadOnlyProperties = true
+                });
             });
         }
     }

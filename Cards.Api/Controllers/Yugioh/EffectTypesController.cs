@@ -58,7 +58,7 @@ namespace Cards.Api.Controllers.Yugioh
                 var effectType = await _effectTypeService.GetEffectTypeByNameAsync(name);
 
                 if (effectType == null)
-                    return NotFound();
+                    return NoContent();
 
                 return Ok(effectType);
             }

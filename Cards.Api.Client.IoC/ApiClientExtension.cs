@@ -13,8 +13,16 @@ namespace Cards.Api.Client.IoC
     {
         public static void AddApiClient(this IServiceCollection services)
         {
-            services.AddTransient<Abstractions.Clients.Dbo.IUserProfileClient, Clients.Dbo.UserProfileClient>();                     
-            services.AddTransient<Abstractions.Clients.Yugioh.IAttributeClient, Clients.Yugioh.AttributeClient>();                     
+            services.AddTransient<Abstractions.Dbo.IUserProfileClient, Dbo.UserProfileClient>();                     
+            services.AddTransient<Abstractions.Yugioh.IAttributeClient, Yugioh.AttributeClient>();                     
+            services.AddTransient<Abstractions.Yugioh.ISpeciesClient, Yugioh.SpeciesClient>();                     
+            services.AddTransient<Abstractions.Yugioh.ICardClient, Yugioh.CardClient>();                     
+            services.AddTransient<Abstractions.Yugioh.IPowerClient, Yugioh.PowerClient>();                     
+            services.AddTransient<Abstractions.Yugioh.ISetClient, Yugioh.SetClient>();                     
+            services.AddTransient<Abstractions.Yugioh.IEffectTypeClient, Yugioh.EffectTypeClient>();                     
+            services.AddTransient<Abstractions.Yugioh.ICardEffectTypeAssociationClient, Yugioh.CardEffectTypeAssociationClient>();                     
+            services.AddTransient<Abstractions.Yugioh.ICardSetAssociationClient, Yugioh.CardSetAssociationClient>();                     
+            services.AddTransient<Abstractions.Yugioh.ICardSpeciesAssociationClient, Yugioh.CardSpeciesAssociationClient>();                     
         }
     }
 }

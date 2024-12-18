@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Abstractions.Clients.Yugioh
+namespace Cards.Api.Client.Abstractions.Yugioh
 {
     public interface ICardClient
     {
+        Task<Models.Yugioh.CardModel> GetCardByNameAsync(string cardName);
         Task<Guid> CreateCardAsync(Models.Yugioh.Create.CreateCardModel createCardModel);
     }
 }

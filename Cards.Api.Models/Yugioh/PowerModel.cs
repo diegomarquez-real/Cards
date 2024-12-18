@@ -10,8 +10,11 @@ namespace Cards.Api.Models.Yugioh
     {
         public Guid PowerId { get; set; }
         public Guid CardId { get; set; }
-        public int Level { get; set; }
-        public int Attack { get; set; }
-        public int Defense { get; set; }
+        public int? Level { get; set; }
+        public int? Rank { get; set; }
+        public int? Link { get; set; }
+        public int? PScale { get; set; }
+        public int? Attack { get; set; }
+        public int? Defense { get; set; }
     }
 }

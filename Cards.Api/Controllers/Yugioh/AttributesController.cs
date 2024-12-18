@@ -26,7 +26,7 @@ namespace Cards.Api.Controllers.Yugioh
         [HttpGet("{id}", Name = "GetAttribute")]
         [ProducesResponseType(typeof(Models.Yugioh.AttributeModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
-        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(typeof(NoContentResult), 204)]
         public async Task<IActionResult> GetAttributeAsync([FromRoute] Guid id)
         {
             try
@@ -50,14 +50,14 @@ namespace Cards.Api.Controllers.Yugioh
         [ProducesResponseType(typeof(Models.Yugioh.AttributeModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
-        public async Task<IActionResult> GetAttributeAsync([FromRoute] string name)
+        public async Task<IActionResult> GetAttributeByNameAsync([FromRoute] string name)
         {
             try
             {
                 var attribute = await _attributeService.GetAttributeByNameAsync(name);
 
                 if (attribute == null)
-                    return NotFound();
+                    return NoContent();
 
                 return Ok(attribute);
             }

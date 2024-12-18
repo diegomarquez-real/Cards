@@ -6,12 +6,12 @@ namespace Cards.Api.Validators.Yugioh
     {
         public PowerValidator()
         {
-            RuleFor(x => x.Attack)
-                .NotEmpty()
-                .NotNull();
-            RuleFor(x => x.Defense)
-                .NotEmpty()
-                .NotNull();
+            //RuleFor(x => x.Attack)
+            //    .NotEmpty()
+            //    .NotNull();
+            //RuleFor(x => x.Defense)
+            //    .NotEmpty()
+            //    .NotNull();
         }
     }
 }

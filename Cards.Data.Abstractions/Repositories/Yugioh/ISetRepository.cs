@@ -8,5 +8,6 @@ namespace Cards.Data.Abstractions.Repositories.Yugioh
 {
     public interface ISetRepository : IGenericRepository<Models.Yugioh.Set, Guid>
     {
+        Task<Models.Yugioh.Set?> FindByNameAsync(string setName);
     }
 }

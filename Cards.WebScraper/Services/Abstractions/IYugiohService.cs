@@ -8,6 +8,6 @@ namespace Cards.WebScraper.Services.Abstractions
 {
     public interface IYugiohService
     {
-        void AddCardsFull();
+        Task AddCardsFullAsync();
     }
 }

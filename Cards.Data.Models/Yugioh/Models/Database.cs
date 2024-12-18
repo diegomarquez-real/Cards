@@ -107,9 +107,12 @@ namespace Cards.Data.Models.Yugioh
 		[Key]
 		[Column] public Guid PowerId { get; set; }
 		[Column] public Guid CardId { get; set; }
-		[Column] public int Level { get; set; }
-		[Column] public int Attack { get; set; }
-		[Column] public int Defense { get; set; }
+		[Column] public int? Level { get; set; }
+		[Column] public int? Rank { get; set; }
+		[Column] public int? Link { get; set; }
+		[Column] public int? PScale { get; set; }
+		[Column] public int? Attack { get; set; }
+		[Column] public int? Defense { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 		[Column] public Guid CreatedBy { get; set; }

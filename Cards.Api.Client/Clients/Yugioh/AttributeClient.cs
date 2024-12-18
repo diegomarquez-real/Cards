@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cards.Api.Client.Clients.Yugioh
+namespace Cards.Api.Client.Yugioh
 {
-    public class AttributeClient : ClientBase, Abstractions.Clients.Yugioh.IAttributeClient
+    public class AttributeClient : ClientBase, Abstractions.Yugioh.IAttributeClient
     {
         public AttributeClient(Abstractions.Settings.IApiClientSettings apiClientSettings,
             ILogger<AttributeClient> logger)
@@ -18,11 +18,18 @@ namespace Cards.Api.Client.Clients.Yugioh
 
         public override string Name => "Attributes";
 
+        public Task<Models.Yugioh.AttributeModel> GetAttributeByNameAsync(string attributeName)
+        {
+            return BuildUrlWithAuth()
+                .AppendPathSegments("name", attributeName)
+                .GetJsonAsync<Models.Yugioh.AttributeModel>();
+        }
+
         public Task<Guid> CreateAttributeAsync(Models.Yugioh.Create.CreateAttributeModel createAttributeModel)
         {
             return BuildUrlWithAuth()
                 .PostJsonAsync(createAttributeModel)
                 .ReceiveJson<Guid>();
-        }
+        } 
     }
 }
