@@ -21,7 +21,7 @@ namespace Cards.Data.Repositories.Yugioh
             {
                 var sql = @"SELECT s.*
                             FROM [yugioh].[Set] AS s
-                            WHERE a.Name = @Name";
+                            WHERE s.Name = @Name";
 
                 return await base._dbConnection.QuerySingleOrDefaultAsync<Models.Yugioh.Set>(sql, new { Name = setName });
             }

@@ -49,7 +49,7 @@ namespace Cards.Api.Controllers.Yugioh
         [HttpGet("name/{name}", Name = "GetSetByName")]
         [ProducesResponseType(typeof(Models.Yugioh.SetModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
-        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(typeof(NoContentResult), 204)]
         public async Task<IActionResult> GetSetByNameAsync([FromRoute] string name)
         {
             try
@@ -57,7 +57,7 @@ namespace Cards.Api.Controllers.Yugioh
                 var set = await _setService.GetSetByNameAsync(name);
 
                 if (set == null)
-                    return NotFound();
+                    return NoContent();
 
                 return Ok(set);
             }

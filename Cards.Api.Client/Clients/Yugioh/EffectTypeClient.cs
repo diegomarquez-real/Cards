@@ -18,10 +18,10 @@ namespace Cards.Api.Client.Yugioh
 
         public override string Name => "EffectTypes";
 
-        public Task<Models.Yugioh.EffectTypeModel> GetEffectTypeByName(string effectTypeName)
+        public Task<Models.Yugioh.EffectTypeModel> GetEffectTypeByNameAsync(string effectTypeName)
         {
             return BuildUrlWithAuth()
-                .AppendPathSegments("name", effectTypeName)
+                .AppendPathSegments("name", Uri.EscapeDataString(effectTypeName))
                 .GetJsonAsync<Models.Yugioh.EffectTypeModel>();
         }
 

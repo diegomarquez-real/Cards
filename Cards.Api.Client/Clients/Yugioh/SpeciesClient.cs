@@ -21,7 +21,7 @@ namespace Cards.Api.Client.Yugioh
         public Task<Models.Yugioh.SpeciesModel> GetSpeciesByNameAsync(string speciesName)
         {
             return BuildUrlWithAuth()
-                .AppendPathSegments("name", speciesName)
+                .AppendPathSegments("name", Uri.EscapeDataString(speciesName))
                 .GetJsonAsync<Models.Yugioh.SpeciesModel>();
         }
 

@@ -8,7 +8,7 @@ namespace Cards.Api.Client.Abstractions.Yugioh
 {
     public interface IEffectTypeClient
     {
-        Task<Models.Yugioh.EffectTypeModel> GetEffectTypeByName(string effectTypeName);
+        Task<Models.Yugioh.EffectTypeModel> GetEffectTypeByNameAsync(string effectTypeName);
         Task<Guid> CreateEffectTypeAsync(Models.Yugioh.Create.CreateEffectTypeModel createEffectTypeModel);
     }
 }

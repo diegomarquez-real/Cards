@@ -21,7 +21,7 @@ namespace Cards.Api.Client.Yugioh
         public Task<Models.Yugioh.SetModel> GetSetByNameAsync(string setName)
         {
             return BuildUrlWithAuth()
-                .AppendPathSegments("name", setName)
+                .AppendPathSegments("name", Uri.EscapeDataString(setName))
                 .GetJsonAsync<Models.Yugioh.SetModel>();
         }
 

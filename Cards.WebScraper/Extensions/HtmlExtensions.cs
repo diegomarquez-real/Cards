@@ -11,7 +11,9 @@ namespace Cards.WebScraper
     {
         public static string RemoveWhitespaceCharacters(this string input)
         {
-            return Regex.Replace(input, @"[\r\n\t]", "").Trim();
+            var htmlDecoded = System.Net.WebUtility.HtmlDecode(input);
+
+            return Regex.Replace(htmlDecoded, @"[\r\n\t]", "").Trim();
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Cards.Api.Controllers.Yugioh
         [HttpGet("name/{name}", Name = "GetSpeciesByName")]
         [ProducesResponseType(typeof(Models.Yugioh.SpeciesModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
-        [ProducesResponseType(typeof(NotFoundResult), 404)]
+        [ProducesResponseType(typeof(NoContentResult), 204)]
         public async Task<IActionResult> GetSpeciesByNameAsync([FromRoute] string name)
         {
             try
@@ -57,7 +57,7 @@ namespace Cards.Api.Controllers.Yugioh
                 var species = await _speciesService.GetSpeciesByNameAsync(name);
 
                 if (species == null)
-                    return NotFound();
+                    return NoContent();
 
                 return Ok(species);
             }

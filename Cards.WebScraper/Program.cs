@@ -41,11 +41,19 @@ try
         return;
     }
 
+    var stopWatch = new System.Diagnostics.Stopwatch();
+
+    stopWatch.Start();
+
     logger.LogInformation("Attempting to add yugioh cards.");
 
-    yugiohService.AddCardsFull();
+    await yugiohService.AddCardsFullAsync();
 
     logger.LogInformation("Yugioh cards successfully added.");
+
+    stopWatch.Stop();
+
+    logger.LogInformation($"Time Elapsed: {stopWatch.Elapsed.ToString()}");
 }
 catch (Exception ex)
 {

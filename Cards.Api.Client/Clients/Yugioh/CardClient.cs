@@ -21,7 +21,7 @@ namespace Cards.Api.Client.Yugioh
         public Task<Models.Yugioh.CardModel> GetCardByNameAsync(string cardName)
         {
             return BuildUrlWithAuth()
-                .AppendPathSegments("name", cardName)
+                .AppendPathSegments("name", Uri.EscapeDataString(cardName))
                 .GetJsonAsync<Models.Yugioh.CardModel>();
         }
 
