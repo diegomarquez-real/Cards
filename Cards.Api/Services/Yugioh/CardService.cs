@@ -32,6 +32,14 @@ namespace Cards.Api.Services.Yugioh
             return _mapper.Map<Models.Yugioh.CardModel>(card);
         }
 
+        public async Task<List<Models.Yugioh.CardModel>> GetAllOrQueryAsync(Models.Yugioh.Query.CardQueryModel cardQueryModel)
+        {
+            var cardQuery = _mapper.Map<Data.Models.Yugioh.CardQuery>(cardQueryModel);
+            var cards = await _cardRepository.FindAllOrQueryAsync(cardQuery);
+
+            return _mapper.Map<List<Models.Yugioh.CardModel>>(cards);
+        }
+
         public async Task<Guid> CreateCardAsync(Models.Yugioh.Create.CreateCardModel createCardModel)
         {
             var card = _mapper.Map<Data.Models.Yugioh.Card>(createCardModel);
@@ -51,6 +59,6 @@ namespace Cards.Api.Services.Yugioh
         public async Task DeleteCardAsync(Guid cardId)
         {
             await _cardRepository.DeleteAsync(cardId);
-        } 
+        }
     }
 }

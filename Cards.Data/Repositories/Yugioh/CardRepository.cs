@@ -27,5 +27,83 @@ namespace Cards.Data.Repositories.Yugioh
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<IEnumerable<Models.Yugioh.Card>> FindAllOrQueryAsync(Models.Yugioh.CardQuery cardQuery)
+        {
+            try
+            {
+                StringBuilder sql = new();
+                DynamicParameters parameters = new();
+
+                // WITH
+                if(cardQuery.SortBy.HasValue && cardQuery.SortBy.Value == Models.Query.SortByEnum.Date)
+                {
+                    sql.AppendLine(@"WITH GroupByIdCount AS (
+                                        SELECT csa.CardId, s.Name, s.ReleaseDate, 
+	                                       ROW_NUMBER() OVER (
+				                                PARTITION BY csa.CardId ORDER BY s.ReleaseDate DESC
+		                                   ) AS IdCount
+	                                    FROM yugioh.CardSetAssociation AS csa
+	                                    INNER JOIN yugioh.[Set] AS s
+		                                    ON s.SetId = csa.SetId
+                                    )");
+                }
+                
+                sql.AppendLine(@"SELECT c.*
+                                 FROM [yugioh].[Card] AS c");
+
+                // JOINS
+                if (cardQuery.SortBy.HasValue && cardQuery.SortBy.Value == Models.Query.SortByEnum.Date)
+                {
+                    sql.AppendLine(@"INNER JOIN GroupByIdCount AS gbic
+	                                    ON gbic.CardId = c.CardId
+                                    WHERE IdCount = 1");
+                }
+
+                // ORDER BY
+                this.ApplySortingAndPaging(sql, cardQuery);
+
+                // OFFSET FETCH    
+                parameters.AddDynamicParams(sql.ApplyPaging(cardQuery.PageNumber, cardQuery.PageSize));
+
+                return await base._dbConnection.QueryAsync<Models.Yugioh.Card>(sql.ToString(), parameters);
+            }
+            catch (Exception) { throw; }
+        }
+
+        public StringBuilder ApplySortingAndPaging(StringBuilder sql, Models.Yugioh.CardQuery cardQuery)
+        {
+            string orderBy = "ORDER BY c.Name";
+
+            if (cardQuery.SortBy.HasValue)
+            {
+                switch (cardQuery.SortBy)
+                {
+                    case Models.Query.SortByEnum.Date:
+                        orderBy = "ORDER BY gbic.ReleaseDate";
+                        break;
+                    case Models.Query.SortByEnum.Name:
+                        orderBy = "ORDER BY c.Name";
+                        break;
+                    default:
+                        orderBy = "ORDER BY c.Name";
+                        break;
+                }
+            }
+
+            switch (cardQuery.SortOrder)
+            {
+                case Models.Query.SortOrderEnum.Ascending:
+                    orderBy += " ASC";
+                    break;
+                case Models.Query.SortOrderEnum.Descending:
+                    orderBy += " DESC";
+                    break;
+            }
+
+            sql.AppendLine(orderBy);
+
+            return sql;
+        }
     }
 }

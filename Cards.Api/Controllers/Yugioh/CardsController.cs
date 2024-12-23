@@ -46,6 +46,25 @@ namespace Cards.Api.Controllers.Yugioh
             }
         }
 
+        [HttpGet(Name = "GetAllOrQuery")]
+        [ProducesResponseType(typeof(List<Models.Yugioh.CardModel>), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
+        public async Task<IActionResult> GetAllOrQueryAsync([FromQuery] Models.Yugioh.Query.CardQueryModel cardQueryModel)
+        {
+            try
+            {
+                var cards = await _cardService.GetAllOrQueryAsync(cardQueryModel);
+
+                return Ok(cards);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed To Get Card.");
+
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("name/{name}", Name = "GetCardByName")]
         [ProducesResponseType(typeof(Models.Yugioh.CardModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
@@ -68,6 +87,8 @@ namespace Cards.Api.Controllers.Yugioh
                 return BadRequest(ex.Message);
             }
         }
+
+
 
         [HttpPost(Name = "CreateCard")]
         [ProducesResponseType(typeof(Guid), 201)]
