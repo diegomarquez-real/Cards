@@ -1,0 +1,24 @@
+﻿@page "/Login"
+@using Blazored.FluentValidation
+@using FluentValidation
+@inject Api.Client.Abstractions.Dbo.IUserProfileClient UserProfileClient
+@inject Identity.Abstractions.ISessionService SessionService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="Input" OnValidSubmit="LoginAsync" FormName="LoginForm">
+    <FluentValidationValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Username</label>
+        <InputText @bind-Value="Input.Username" class="form-control" />
+        <ValidationMessage For="@(() => Input.Username)" />
+    </div>
+    <div class="form-group mt-3">
+        <label>Password</label>
+        <InputText @bind-Value="Input.Password" class="form-control" type="password" />
+        <ValidationMessage For="@(() => Input.Password)" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</EditForm>
+

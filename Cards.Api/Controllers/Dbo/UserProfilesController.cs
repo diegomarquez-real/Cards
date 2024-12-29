@@ -31,7 +31,7 @@ namespace Cards.Api.Controllers.Dbo
         [ProducesResponseType(typeof(Models.Identity.AuthTokenModel), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(UnauthorizedResult), 401)]
-        public async Task<IActionResult> Authenticate([FromBody] Models.Identity.UserProfileLoginModel userProfileLoginModel)
+        public async Task<IActionResult> AuthenticateAsync([FromBody] Models.Identity.UserProfileLoginModel userProfileLoginModel)
         {
             try
             {
