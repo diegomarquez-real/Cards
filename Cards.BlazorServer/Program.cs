@@ -3,12 +3,18 @@ using Cards.BlazorServer.Components;
 using Cards.BlazorServer.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
+using NLog.Extensions.Logging;
+using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Add NLog to the logging pipeline.
+LogManager.Configuration = new NLogLoggingConfiguration(builder.Configuration.GetSection("NLog"));
+builder.Logging.AddNLog();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(config =>
 {

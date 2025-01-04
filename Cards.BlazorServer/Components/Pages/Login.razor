@@ -2,6 +2,7 @@
 @page "/Login"
 @using Blazored.FluentValidation
 @using FluentValidation
+@inject ILogger<Login> Logger
 @inject Api.Client.Abstractions.Dbo.IUserProfileClient UserProfileClient
 @inject Identity.Abstractions.ISessionService SessionService
 @inject NavigationManager NavigationManager

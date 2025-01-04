@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Cards.BlazorServer.Components.Pages
 {
@@ -21,7 +22,7 @@ namespace Cards.BlazorServer.Components.Pages
                 });
 
                 if (authTokenModel == null)
-                    return;
+                    return;                
 
                 await SessionService.SignInAsync(authTokenModel);
 
@@ -29,7 +30,7 @@ namespace Cards.BlazorServer.Components.Pages
             }
             catch (Exception ex)
             {
-                //throw;
+                Logger.LogError(ex, "Failed to login.");
             }
             finally
             {
