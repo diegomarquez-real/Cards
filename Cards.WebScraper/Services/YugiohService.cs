@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ namespace Cards.WebScraper.Services
 {
     public class YugiohService : Abstractions.IYugiohService
     {
+        private readonly ILogger<YugiohService> _logger;
         private readonly IOptions<Options.AppSettingsOptions> _options;
         private readonly Abstractions.IProgressService _progressService;
         private readonly Api.Client.Abstractions.Yugioh.ISetClient _setClient;
@@ -20,7 +22,8 @@ namespace Cards.WebScraper.Services
         private readonly Api.Client.Abstractions.Yugioh.ICardSetAssociationClient _cardSetAssociationClient;
         private readonly Api.Client.Abstractions.Yugioh.ICardSpeciesAssociationClient _cardSpeciesAssociationClient;
 
-        public YugiohService(IOptions<Options.AppSettingsOptions> options,
+        public YugiohService(ILogger<YugiohService> logger,
+            IOptions<Options.AppSettingsOptions> options,
             Abstractions.IProgressService progressService,
             Api.Client.Abstractions.Yugioh.ISetClient setClient,
             Api.Client.Abstractions.Yugioh.ICardClient cardClient,
@@ -32,6 +35,7 @@ namespace Cards.WebScraper.Services
             Api.Client.Abstractions.Yugioh.ICardSetAssociationClient cardSetAssociationClient,
             Api.Client.Abstractions.Yugioh.ICardSpeciesAssociationClient cardSpeciesAssociationClient)
         {
+            _logger = logger;
             _options = options;
             _progressService = progressService;
             _setClient = setClient;
@@ -320,14 +324,22 @@ namespace Cards.WebScraper.Services
 
         private async Task DownloadCardImageAsync(string cardDirectory, string cardImageSrc, HttpClient httpClient)
         {
-            string fileName = Path.GetFileName(new Uri(cardImageSrc).LocalPath);
-            string savePath = Path.Combine(cardDirectory, fileName);
-            if (File.Exists(savePath))
+            try
             {
-                return;
+                string fileName = Path.GetFileName(new Uri(cardImageSrc).LocalPath);
+                string savePath = Path.Combine(cardDirectory, fileName);
+                if (File.Exists(savePath))
+                {
+                    return;
+                }
+                byte[] imageBytes = await httpClient.GetByteArrayAsync(cardImageSrc);
+                await File.WriteAllBytesAsync(savePath, imageBytes);
             }
-            byte[] imageBytes = await httpClient.GetByteArrayAsync(cardImageSrc);
-            await File.WriteAllBytesAsync(savePath, imageBytes);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to download img from ({cardImageSrc}).");
+            }
+            
         }
 
         private async Task<ImageLineItem> GetCardImgSrcDataAsync(KeyValuePair<Guid, List<string>> cardIdUrlPair/*, HtmlWeb htmlWeb*/)
