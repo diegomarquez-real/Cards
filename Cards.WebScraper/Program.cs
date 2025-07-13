@@ -11,6 +11,7 @@ HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Environment.ContentRootPath = Directory.GetCurrentDirectory();
 builder.Configuration.AddJsonFile("appsettings.json", optional: true);
 builder.Configuration.AddUserSecrets<Program>();
+builder.Configuration.AddEnvironmentVariables();
 LogManager.Configuration = new NLogLoggingConfiguration(builder.Configuration.GetSection("NLog"));
 builder.Logging.AddNLog();
 builder.Services.AddOptions(builder.Configuration); // Configure settings for IOptions DI.
@@ -47,7 +48,8 @@ try
 
     logger.LogInformation("Attempting to add yugioh cards.");
 
-    await yugiohService.AddCardsFullAsync();
+    //await yugiohService.AddCardsFullAsync();
+    await yugiohService.AddCardImagesFullAsync();
 
     logger.LogInformation("Yugioh cards successfully added.");
 
