@@ -31,5 +31,12 @@ namespace Cards.Api.Client.Yugioh
                 .PostJsonAsync(createCardModel)
                 .ReceiveJson<Guid>();
         }
+
+        public Task<List<Models.Yugioh.CardModel>> GetAllOrQueryAsync(Models.Yugioh.Query.CardQueryModel cardQueryModel)
+        {
+            return BuildUrlWithAuth()
+                .SetQueryParams(cardQueryModel)
+                .GetJsonAsync<List<Models.Yugioh.CardModel>>();
+        }
     }
 }
