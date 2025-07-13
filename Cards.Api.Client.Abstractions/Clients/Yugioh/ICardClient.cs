@@ -10,5 +10,6 @@ namespace Cards.Api.Client.Abstractions.Yugioh
     {
         Task<Models.Yugioh.CardModel> GetCardByNameAsync(string cardName);
         Task<Guid> CreateCardAsync(Models.Yugioh.Create.CreateCardModel createCardModel);
+        Task<List<Models.Yugioh.CardModel>> GetAllOrQueryAsync(Models.Yugioh.Query.CardQueryModel cardQueryModel);
     }
 }

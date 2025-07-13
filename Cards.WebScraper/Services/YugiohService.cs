@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ namespace Cards.WebScraper.Services
 {
     public class YugiohService : Abstractions.IYugiohService
     {
+        private readonly ILogger<YugiohService> _logger;
         private readonly IOptions<Options.AppSettingsOptions> _options;
         private readonly Abstractions.IProgressService _progressService;
         private readonly Api.Client.Abstractions.Yugioh.ISetClient _setClient;
@@ -20,7 +22,8 @@ namespace Cards.WebScraper.Services
         private readonly Api.Client.Abstractions.Yugioh.ICardSetAssociationClient _cardSetAssociationClient;
         private readonly Api.Client.Abstractions.Yugioh.ICardSpeciesAssociationClient _cardSpeciesAssociationClient;
 
-        public YugiohService(IOptions<Options.AppSettingsOptions> options,
+        public YugiohService(ILogger<YugiohService> logger,
+            IOptions<Options.AppSettingsOptions> options,
             Abstractions.IProgressService progressService,
             Api.Client.Abstractions.Yugioh.ISetClient setClient,
             Api.Client.Abstractions.Yugioh.ICardClient cardClient,
@@ -32,6 +35,7 @@ namespace Cards.WebScraper.Services
             Api.Client.Abstractions.Yugioh.ICardSetAssociationClient cardSetAssociationClient,
             Api.Client.Abstractions.Yugioh.ICardSpeciesAssociationClient cardSpeciesAssociationClient)
         {
+            _logger = logger;
             _options = options;
             _progressService = progressService;
             _setClient = setClient;
@@ -262,6 +266,115 @@ namespace Cards.WebScraper.Services
             }
         }
 
+        public async Task AddCardImagesFullAsync()
+        {
+            int pageNumber = 1;
+            int cardCount = 0;
+            Api.Models.Yugioh.Query.CardQueryModel cardQueryModel = new Api.Models.Yugioh.Query.CardQueryModel()
+            {
+                PageNumber = pageNumber,
+                PageSize = 100
+            };
+            List<Api.Models.Yugioh.CardModel> allCards = new List<Api.Models.Yugioh.CardModel>();
+            List<Api.Models.Yugioh.CardModel> cards = await _cardClient.GetAllOrQueryAsync(cardQueryModel);
+            allCards.AddRange(cards);
+            pageNumber++;
+            cardQueryModel.PageNumber = pageNumber;
+            cardCount = cards.Count;
+            while (cardCount >= 100)
+            {
+                cards = await _cardClient.GetAllOrQueryAsync(cardQueryModel);
+                allCards.AddRange(cards);
+                pageNumber++;
+                cardQueryModel.PageNumber = pageNumber;
+                cardCount = cards.Count;
+            }
+            await this.SaveImagesAsync(allCards);
+        }
+
+        private async Task SaveImagesAsync(List<Api.Models.Yugioh.CardModel> cards)
+        {
+            Dictionary<Guid, List<string>> cardIdUrlPairs = new Dictionary<Guid, List<string>>();
+            foreach (Api.Models.Yugioh.CardModel card in cards)
+            {
+                cardIdUrlPairs.Add(card.CardId, new List<string>() 
+                { 
+                    _options.Value.YugiohImgDbUrl + card.Name.Replace("\"", "").Replace(" ", "_").Replace("!", "").Replace("?", "").Replace(":", "").Replace("'", "").Replace(".", "").Replace("&", "").Replace(",", "").Replace("@", "").Replace(@"/", "").Replace("#", "").Replace("(", "").Replace(")", "").Replace("<", "").Replace(">", ""), 
+                    _options.Value.YugiohImgDbUrl2 + card.Name.Replace("\"", "").Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", ""),
+                    _options.Value.YugiohImgDbUrl2 + card.Name.Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", ""),
+                    _options.Value.YugiohImgDbUrl2 + card.Name.Replace("\"", "").Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", "") + "_(card)"
+                });
+            }
+            ImageLineItem[] cardImageLineItems = await Task.WhenAll(cardIdUrlPairs.Select(x => this.GetCardImgSrcDataAsync(x)));
+            string baseOutputDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Cards.WebScraper\\Images\\Yugioh\\");
+            Directory.CreateDirectory(baseOutputDirectory);
+            List<string> imagePaths = new List<string>();
+            using (var httpClient = new HttpClient())
+            {
+                List<Task> cardTasks = new List<Task>();
+                foreach (ImageLineItem cardImageLineItem in cardImageLineItems)
+                {
+                    string cardDirectory = Path.Combine(baseOutputDirectory, cardImageLineItem.CardId.ToString());
+                    Directory.CreateDirectory(cardDirectory);
+                    cardTasks.AddRange(cardImageLineItem.CardImageSrcs.Select(x => this.DownloadCardImageAsync(cardDirectory, x, httpClient)));
+                }
+                await Task.WhenAll(cardTasks);
+            };
+        }
+
+        private async Task DownloadCardImageAsync(string cardDirectory, string cardImageSrc, HttpClient httpClient)
+        {
+            try
+            {
+                string fileName = Path.GetFileName(new Uri(cardImageSrc).LocalPath);
+                string savePath = Path.Combine(cardDirectory, fileName);
+                if (File.Exists(savePath))
+                {
+                    return;
+                }
+                byte[] imageBytes = await httpClient.GetByteArrayAsync(cardImageSrc);
+                await File.WriteAllBytesAsync(savePath, imageBytes);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to download img from ({cardImageSrc}).");
+            }
+            
+        }
+
+        private async Task<ImageLineItem> GetCardImgSrcDataAsync(KeyValuePair<Guid, List<string>> cardIdUrlPair/*, HtmlWeb htmlWeb*/)
+        {
+            HtmlWeb htmlWeb = new HtmlWeb();
+            List<string> cardImageSrcs = new List<string>();
+            HtmlDocument cardHtmlDoc = htmlWeb.Load(cardIdUrlPair.Value[0]);
+            HtmlNodeCollection altArtsNodes = cardHtmlDoc.DocumentNode.SelectNodes("//div[@id=\"card-images-container\"]//div[@id=\"alternative-arts\"]//img[@id=\"alternative-card-image\"]");
+            if (altArtsNodes?.Any() != true)
+            {
+                HtmlNode cardImgNode = cardHtmlDoc.DocumentNode.SelectSingleNode("//div[@id=\"card-images-container\"]//img[@id=\"card-image\"]");
+                int cardUrlIndex = 1;
+                while (cardImgNode == null && cardUrlIndex < cardIdUrlPair.Value.Count)
+                {
+                    cardImgNode = await this.GetNodeByUrlAsync(cardIdUrlPair.Value[cardUrlIndex], "//div[contains(@class, \"cardtable-main_image-wrapper\")]//a//img", htmlWeb);
+                    cardUrlIndex++;
+                }
+                cardImageSrcs.Add(cardImgNode.GetAttributeValue("src", String.Empty));
+            }
+            else
+            {
+                foreach (HtmlNode altArtsNode in altArtsNodes)
+                {
+                    cardImageSrcs.Add(altArtsNode.GetAttributeValue("src", String.Empty));
+                }
+            }
+            return new ImageLineItem() { CardId = cardIdUrlPair.Key, CardImageSrcs = cardImageSrcs };
+        }
+
+        private async Task<HtmlNode> GetNodeByUrlAsync(string url, string xPath, HtmlWeb htmlWeb)
+        {
+            HtmlDocument htmlDoc = await htmlWeb.LoadFromWebAsync(url);
+            return htmlDoc.DocumentNode.SelectSingleNode(xPath);
+        }
+
         private void BuildCards(HtmlNodeCollection cardHtmlNodes, SetLineItem setLineItem, Dictionary<string, CardLineItem> container)
         {
             for (int i = 0; i < cardHtmlNodes.Count; i++)
@@ -287,6 +400,8 @@ namespace Cards.WebScraper.Services
         private CardLineItem BuildCardLineItem(HtmlNode cardHtmlNode)
         {
             var cardName = cardHtmlNode.SelectSingleNode(".//span[contains(@class, \"card_name\")]").InnerText.RemoveWhitespaceCharacters();
+            int updatedFromIndex = cardName.IndexOf("Updated from");
+            cardName = updatedFromIndex < 0 ? cardName : cardName.Substring(0, updatedFromIndex - 2);
             var cardDescription = cardHtmlNode.SelectSingleNode(".//dd[contains(@class, \"box_card_text\")]").InnerHtml.RemoveWhitespaceCharacters().Replace("<br>", "\r\n");
             var cardSpecs = cardHtmlNode.SelectSingleNode(".//dd[contains(@class, \"box_card_spec\")]");
             var cardAttribute = cardSpecs.SelectSingleNode(".//span[contains(@class, \"box_card_attribute\")]//span")?.InnerText;
@@ -335,6 +450,12 @@ namespace Cards.WebScraper.Services
         {
             public string Name { get; set; }
             public DateTime Date { get; set; }
+        }
+
+        public class ImageLineItem
+        {
+            public Guid CardId { get; set; }
+            public List<string> CardImageSrcs { get; set; }
         }
     }
 }
