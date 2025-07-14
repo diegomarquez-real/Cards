@@ -11,21 +11,21 @@ namespace Cards.Api.Client.Extensions
 {
     public static class FlurlExtensions
     {
-        public static IFlurlRequest ManageClient(this string clientUrl, ILogger logger)
+        public static IFlurlRequest ManageClient(this string clientUrl, ILogger logger, Abstractions.Identity.IAuthTokenProvider authTokenProvider)
         {
             return clientUrl.BeforeCall(x =>
             {
-                logger.LogInformation($"Request: {x.HttpRequestMessage.RequestUri}");
+                logger.LogDebug($"Begin Call To {x.Request.Url}.");
             })
             .AfterCall(x =>
             {
-                if (x.Succeeded)
+                logger.LogDebug($"End Call To {x.Request.Url} Which Took {x.Duration?.TotalSeconds} Seconds.");
+            })
+            .OnError(x =>
+            {
+                if (x.HttpResponseMessage?.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    logger.LogInformation("Request succeeded.");
-                }
-                else
-                {
-                    logger.LogError("Request failed.");
+                    authTokenProvider.OnTokenExpired();
                 }
             })
             .WithHeaders(new

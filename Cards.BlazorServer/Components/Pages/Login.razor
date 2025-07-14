@@ -1,0 +1,36 @@
+﻿@layout LoginLayout
+@page "/Login"
+@using Blazored.FluentValidation
+@using FluentValidation
+@inject ILogger<Login> Logger
+@inject Api.Client.Abstractions.Dbo.IUserProfileClient UserProfileClient
+@inject Identity.Abstractions.ISessionService SessionService
+@inject NavigationManager NavigationManager
+
+<div class="card bg-dark">
+    <div class="card-body">
+        <div class="d-flex justify-content-center">
+            <img src="images/tcg-logo.svg" width="200" alt="TCG" />
+        </div>
+        <EditForm method="post" EditContext="_editContext" OnValidSubmit="LoginAsync" FormName="login-form">
+            <FluentValidationValidator />
+            <ValidationSummary />
+
+            <div class="d-flex justify-content-center text-white">
+                <div class="w-75">
+                    <div class="form-group align-items-center">
+                        <label>Username</label>
+                        <InputText @bind-Value="Input.Username" class="form-control" />
+                        <ValidationMessage For="@(() => Input.Username)" />
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Password</label>
+                        <InputText @bind-Value="Input.Password" class="form-control" type="password" />
+                        <ValidationMessage For="@(() => Input.Password)" />
+                    </div>
+                    <button type="submit" class="btn btn-secondary text-dark float-end mt-3">Submit</button>
+                </div>
+            </div>            
+        </EditForm>
+    </div>
+</div>

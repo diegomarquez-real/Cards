@@ -35,7 +35,7 @@ namespace Cards.Api.Client
             var authToken = _authTokenProvider.GetAuthToken();
 
             return _apiClientSettings.ApiBaseUrl
-                .ManageClient(_logger)
+                .ManageClient(_logger, _authTokenProvider)
                 .AppendPathSegment(_schemaType.ToSchemaString())
                 .AppendPathSegment(this.Name)
                 .WithOAuthBearerToken(authToken?.Token ?? String.Empty);
@@ -44,7 +44,7 @@ namespace Cards.Api.Client
         protected IFlurlRequest BuildUrlWithoutAuth()
         {
             return _apiClientSettings.ApiBaseUrl
-                .ManageClient(_logger)
+                .ManageClient(_logger, _authTokenProvider)
                 .AppendPathSegment(_schemaType.ToSchemaString())
                 .AppendPathSegment(this.Name);
         }
