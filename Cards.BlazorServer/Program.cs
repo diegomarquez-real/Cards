@@ -16,6 +16,8 @@ builder.Services.AddRazorComponents()
 LogManager.Configuration = new NLogLoggingConfiguration(builder.Configuration.GetSection("NLog"));
 builder.Logging.AddNLog();
 
+builder.Services.AddBlazorBootstrap();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(config =>
 {
     config.Cookie.Name = "CardsBlazorServerUserLoginCookie";
