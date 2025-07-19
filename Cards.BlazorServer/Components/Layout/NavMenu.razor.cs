@@ -19,8 +19,8 @@ namespace Cards.BlazorServer.Components.Layout
         {
             navItems = new List<NavItem>
             {
-                new NavItem { Id = "1", Href = "/", IconName = IconName.HouseDoorFill, Text = "Home", },
-                new NavItem { Id = "2", Href = "/yugioh", IconName = IconName.CardImage, Text = "Yugioh", }
+                new NavItem { Id = "1", Href = "/", Text = "Home", IconName = IconName.HouseDoorFill },
+                new NavItem { Id = "2", Href = "/yugioh", Text = "Yugioh", CustomIconName="bi-custom-base bi-yugioh-card-back" }
             };
             return navItems;
         }

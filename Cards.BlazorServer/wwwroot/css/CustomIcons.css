@@ -1,0 +1,13 @@
+﻿.bi-custom-base {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.bi-yugioh-card-back {
+    background-image: url('/images/Yugioh/Logo/yugioh-card-back.svg');
+}
