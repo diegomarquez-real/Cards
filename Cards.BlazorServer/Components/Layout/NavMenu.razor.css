@@ -1,24 +1,22 @@
-.navbar-tcg-collapsed {
-    width: 150px;
-}
-
-#navbar-tcg-logo {
-    max-width: 75px;
-}
-
-.nav-item-tcg {
-    background-color: var(--light-blue);
-    padding: 7px;
-    cursor: pointer;
-    border-radius: 3px;
-    opacity: 0.8;
-}
-
-.nav-icon-tcg {
-    color: red;
-    background-color: red;
-}
-
-.nav-item-tcg:hover {
-    opacity: unset;
+#navbar-tcg {
+    --bb-sidebar2-width: 270px;
+    --bb-sidebar2-collapsed-width: 50px;
+    --bb-sidebar2-background-color: rgba(var(--bs-dark-rgb), 0.5);
+    --bb-sidebar2-top-row-background-color: rgba(0,0,0,0);
+    --bb-sidebar2-top-row-border-color: black;
+    --bb-sidebar2-title-text-color: rgb(0,0,0);
+    --bb-sidebar2-brand-icon-color: #6f42c1;
+    --bb-sidebar2-brand-image-width: 40px;
+    --bb-sidebar2-brand-image-height: 40px;
+    --bb-sidebar2-title-badge-text-color: rgb(255,255,255);
+    --bb-sidebar2-title-badge-background-color: rgba(25,135,84,var(--bs-bg-opacity,1));
+    --bb-sidebar2-navbar-toggler-icon-color: rgb(0,0,0);
+    --bb-sidebar2-navbar-toggler-background-color: rgba(0,0,0,0.08);
+    --bb-sidebar2-content-border-color: black;
+    --bb-sidebar2-nav-item-text-color: rgba(0,0,0,0.9);
+    --bb-sidebar2-nav-item-text-active-color-rgb: 0,0,0;
+    --bb-sidebar2-nav-item-text-hover-color: rgba(var(--bb-sidebar2-nav-item-text-active-color-rgb),1);
+    --bb-sidebar2-nav-item-text-active-color: rgba(var(--bb-sidebar2-nav-item-text-active-color-rgb),0.9);
+    --bb-sidebar2-nav-item-background-hover-color: rgba(var(--bb-sidebar2-nav-item-text-active-color-rgb),0.2);
+    --bb-sidebar2-nav-item-group-background-color: rgba(var(--bb-sidebar2-nav-item-text-active-color-rgb),0.2);
 }

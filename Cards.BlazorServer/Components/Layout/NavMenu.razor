@@ -1,29 +1,8 @@
 ﻿@rendermode InteractiveServer
 
-<Sidebar2 Href="/"
-          ImageSrc="/images/tcg-logo.svg"
-          ImageWidth="50"
-          Title="Cards"
-          DataProvider="Sidebar2DataProvider" />
-
-@code {
-    IEnumerable<NavItem>? navItems;
-
-    private async Task<Sidebar2DataProviderResult> Sidebar2DataProvider(Sidebar2DataProviderRequest request)
-    {
-        if (navItems is null)
-            navItems = GetNavItems();
-
-        return await Task.FromResult(request.ApplyTo(navItems));
-    }
-
-    private IEnumerable<NavItem> GetNavItems()
-    {
-        navItems = new List<NavItem>
-        {
-            new NavItem { Id = "1", Href = "/", IconName = IconName.HouseDoorFill, Text = "Home"},
-        };
-
-        return navItems;
-    }
-}
+<div id="navbar-tcg">
+    <Sidebar2 Href="/"
+        ImageSrc="/images/tcg-logo.svg"
+        Title="Cards"
+        DataProvider="LoadNavMenu" />
+</div>
