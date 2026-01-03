@@ -33,6 +33,7 @@ namespace Cards.Data.Repositories.Yugioh
             try
             {
                 StringBuilder sql = new();
+                SqlBuilder sqlBuilder = new ();
                 DynamicParameters parameters = new();
 
                 // WITH
@@ -52,13 +53,28 @@ namespace Cards.Data.Repositories.Yugioh
                 sql.AppendLine(@"SELECT c.*
                                  FROM [yugioh].[Card] AS c");
 
+                SqlBuilder.Template sqlTemplate = sqlBuilder
+                    .AddTemplate(@"/**innerjoin**/
+                                   /**where**/ 
+                                   /**orderby**/");
+
                 // JOINS
                 if (cardQuery.SortBy.HasValue && cardQuery.SortBy.Value == Models.Query.SortByEnum.Date)
                 {
-                    sql.AppendLine(@"INNER JOIN GroupByIdCount AS gbic
-	                                    ON gbic.CardId = c.CardId
-                                    WHERE IdCount = 1");
+                    sqlBuilder.InnerJoin(@"GroupByIdCount AS gbic
+	                                       ON gbic.CardId = c.CardId");
+                    sqlBuilder.Where("IdCount = 1");
                 }
+
+                // WHERE
+                if (!String.IsNullOrWhiteSpace(cardQuery.NameSearchText))
+                {
+                    string nameSearchText = $"%{cardQuery.NameSearchText}%";
+                    sqlBuilder.Where("c.Name LIKE @NameSearchText");
+                    parameters.Add("NameSearchText", nameSearchText);
+                }
+
+                sql.AppendLine(sqlTemplate.RawSql);
 
                 // ORDER BY
                 this.ApplySortingAndPaging(sql, cardQuery);

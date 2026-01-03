@@ -8,5 +8,6 @@ namespace Cards.Data.Models.Yugioh
 {
     public class CardQuery : Query
     {
+        public string NameSearchText { get; set; }
     }
 }
