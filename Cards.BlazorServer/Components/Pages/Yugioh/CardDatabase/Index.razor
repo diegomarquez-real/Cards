@@ -3,10 +3,12 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-center">
         <div class="col-xxl-6 col-12">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Card Name">
-                <button class="btn btn-primary" type="button">Search</button>
-            </div>
+            <EditForm Model="Input" OnSubmit="SearchAsync" FormName="cardSearchForm">
+                <div class="input-group mb-3">
+                    <InputText @bind-Value="Input.NameSearchText" class="form-control" />
+                    <Button Type="ButtonType.Submit" Color="ButtonColor.Primary">Search</Button>
+                </div>
+            </EditForm>
         </div>
     </div>
 </div>
