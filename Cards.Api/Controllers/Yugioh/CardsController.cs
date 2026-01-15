@@ -49,11 +49,13 @@ namespace Cards.Api.Controllers.Yugioh
         [HttpGet(Name = "GetAllOrQuery")]
         [ProducesResponseType(typeof(List<Models.Yugioh.CardModel>), 200)]
         [ProducesResponseType(typeof(BadRequestResult), 400)]
-        public async Task<IActionResult> GetAllOrQueryAsync([FromQuery] Models.Yugioh.Query.CardQueryModel cardQueryModel)
+        public async Task<IActionResult> GetAllOrQueryAsync(
+            [FromQuery] Models.Yugioh.Query.CardQueryModel cardQueryModel,
+            [FromQuery] Models.Yugioh.CardModel.Expansions[] expansions)
         {
             try
             {
-                var cards = await _cardService.GetAllOrQueryAsync(cardQueryModel);
+                var cards = await _cardService.GetAllOrQueryAsync(cardQueryModel, expansions);
 
                 return Ok(cards);
             }

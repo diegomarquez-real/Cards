@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Cards.Api.Options;
 using FluentValidation;
+using Microsoft.Extensions.Options;
 
 namespace Cards.Api.Services.Yugioh
 {
@@ -8,14 +10,17 @@ namespace Cards.Api.Services.Yugioh
         private readonly IMapper _mapper;
         private readonly IValidator<Data.Models.Yugioh.Card> _validator;
         private readonly Data.Abstractions.Repositories.Yugioh.ICardRepository _cardRepository;
+        private readonly IOptions<AppSettingsOptions> _appSettingsOptions;
 
         public CardService(IMapper mapper,
             IValidator<Data.Models.Yugioh.Card> validator,
-            Data.Abstractions.Repositories.Yugioh.ICardRepository cardRepository)
+            Data.Abstractions.Repositories.Yugioh.ICardRepository cardRepository,
+            IOptions<AppSettingsOptions> appSettingsOptions)
         {
             _mapper = mapper;
             _validator = validator;
             _cardRepository = cardRepository;
+            _appSettingsOptions = appSettingsOptions;
         }
 
         public async Task<Models.Yugioh.CardModel> GetCardAsync(Guid cardId)
@@ -32,12 +37,16 @@ namespace Cards.Api.Services.Yugioh
             return _mapper.Map<Models.Yugioh.CardModel>(card);
         }
 
-        public async Task<List<Models.Yugioh.CardModel>> GetAllOrQueryAsync(Models.Yugioh.Query.CardQueryModel cardQueryModel)
+        public async Task<List<Models.Yugioh.CardModel>> GetAllOrQueryAsync(
+            Models.Yugioh.Query.CardQueryModel cardQueryModel,
+            params Models.Yugioh.CardModel.Expansions[] expansions)
         {
             var cardQuery = _mapper.Map<Data.Models.Yugioh.CardQuery>(cardQueryModel);
             var cards = await _cardRepository.FindAllOrQueryAsync(cardQuery);
+            List<Models.Yugioh.CardModel> cardModels = _mapper.Map<List<Models.Yugioh.CardModel>>(cards);
+            this.ExpandCardModels(cardModels, expansions);
 
-            return _mapper.Map<List<Models.Yugioh.CardModel>>(cards);
+            return cardModels;
         }
 
         public async Task<Guid> CreateCardAsync(Models.Yugioh.Create.CreateCardModel createCardModel)
@@ -59,6 +68,44 @@ namespace Cards.Api.Services.Yugioh
         public async Task DeleteCardAsync(Guid cardId)
         {
             await _cardRepository.DeleteAsync(cardId);
+        }
+
+        private void ExpandCardModels(List<Models.Yugioh.CardModel> cards, 
+            Models.Yugioh.CardModel.Expansions[] expansions)
+        {
+            if(expansions?.Any() != true || expansions?.Any() != true)
+            {
+                return;
+            }
+
+            foreach(Models.Yugioh.CardModel.Expansions expansion in expansions)
+            {
+                switch (expansion)
+                {
+                    case Models.Yugioh.CardModel.Expansions.Images:
+                        string cardImgsDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), _appSettingsOptions.Value.YugiohImgRelativeDir);
+                        if (!Directory.Exists(cardImgsDir))
+                        {
+                            break;
+                        }
+                        string imgDir = String.Empty;
+                        cards.ForEach(card =>
+                        {
+                            imgDir = Path.Combine(cardImgsDir, card.CardId.ToString());
+                            if (!Directory.Exists(imgDir))
+                            {
+                                return; 
+                            }
+                            IEnumerable<string> imgPaths = Directory.EnumerateFiles(imgDir);
+                            if(imgPaths?.Any() != true)
+                            {
+                                return;
+                            }
+                            card.ImageBytes = imgPaths.Select(x => File.ReadAllBytes(x));
+                        });
+                        break;
+                }
+            }
         }
     }
 }

@@ -5,6 +5,7 @@
         public static void AddOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<Options.JWTSettingsOptions>(configuration.GetSection("JWTSettings"));
+            services.Configure<Options.AppSettingsOptions>(configuration.GetSection("AppSettings"));
         }
     }
 }
