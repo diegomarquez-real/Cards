@@ -9,15 +9,20 @@ namespace Cards.Data
 {
     public static class SqlBuilderExtensions
     {
-        public static object ApplyPaging(this StringBuilder sql, int? pageNumber, int? pageSize)
+        public static (int offset, int fetch) ApplyPaging(
+            this SqlBuilder sqlBuilder, 
+            string orderBySql, 
+            int? pageNumber, 
+            int? pageSize)
         {
             int fetchValue = pageSize.HasValue && pageSize.Value > 0 && pageSize.Value <= 100 ? pageSize.Value : 100;
             int offsetValue = pageNumber.HasValue && pageNumber > 0 ? (pageNumber.Value - 1) * fetchValue : 0;
 
-            sql.AppendLine($@"OFFSET @OffsetValue ROWS
-                              FETCH NEXT @FetchValue ROWS ONLY");
+            sqlBuilder.OrderBy($@"{orderBySql}
+                                  OFFSET @OffsetValue ROWS
+                                  FETCH NEXT @FetchValue ROWS ONLY");
 
-            return new { OffsetValue = offsetValue, FetchValue = fetchValue };
+            return (offsetValue, fetchValue);
         }
     }
 }

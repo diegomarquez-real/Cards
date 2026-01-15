@@ -17,8 +17,8 @@ namespace Cards.Data.Models
 
         public enum SortByEnum
         {
-            Name = 1,
-            Date = 2
+            Name,
+            Date
         }
 
         public enum SortOrderEnum

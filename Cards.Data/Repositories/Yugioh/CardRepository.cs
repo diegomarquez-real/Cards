@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using PetaPoco;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,77 +34,67 @@ namespace Cards.Data.Repositories.Yugioh
         {
             try
             {
-                StringBuilder sql = new();
                 SqlBuilder sqlBuilder = new ();
                 DynamicParameters parameters = new();
 
-                // WITH
-                if(cardQuery.SortBy.HasValue && cardQuery.SortBy.Value == Models.Query.SortByEnum.Date)
-                {
-                    sql.AppendLine(@"WITH GroupByIdCount AS (
-                                        SELECT csa.CardId, s.Name, s.ReleaseDate, 
-	                                       ROW_NUMBER() OVER (
-				                                PARTITION BY csa.CardId ORDER BY s.ReleaseDate DESC
-		                                   ) AS IdCount
-	                                    FROM yugioh.CardSetAssociation AS csa
-	                                    INNER JOIN yugioh.[Set] AS s
-		                                    ON s.SetId = csa.SetId
-                                    )");
-                }
-                
-                sql.AppendLine(@"SELECT c.*
-                                 FROM [yugioh].[Card] AS c");
-
                 SqlBuilder.Template sqlTemplate = sqlBuilder
-                    .AddTemplate(@"/**innerjoin**/
+                    .AddTemplate(@"SELECT c.*
+                                   FROM [yugioh].[Card] AS c
+                                   /**innerjoin**/
                                    /**where**/ 
                                    /**orderby**/");
 
-                // JOINS
-                if (cardQuery.SortBy.HasValue && cardQuery.SortBy.Value == Models.Query.SortByEnum.Date)
+                // JOIN
+                if (cardQuery.SortBy.HasValue && 
+                    cardQuery.SortBy.Value == Models.Query.SortByEnum.Date)
                 {
-                    sqlBuilder.InnerJoin(@"GroupByIdCount AS gbic
-	                                       ON gbic.CardId = c.CardId");
-                    sqlBuilder.Where("IdCount = 1");
+                    sqlBuilder.InnerJoin(@"
+                    (
+	                    SELECT csa.CardId, 
+		                    s.ReleaseDate, 
+	                        ROW_NUMBER() OVER (
+			                    PARTITION BY csa.CardId 
+			                    ORDER BY s.ReleaseDate DESC
+		                    ) AS IdCount
+	                    FROM [yugioh].[CardSetAssociation] AS csa
+	                    INNER JOIN [yugioh].[Set] AS s
+		                    ON s.SetId = csa.SetId
+                    ) AS gbic ON gbic.CardId = c.CardId");
+                    sqlBuilder.Where("gbic.IdCount = 1");
                 }
 
                 // WHERE
                 if (!String.IsNullOrWhiteSpace(cardQuery.NameSearchText))
                 {
-                    string nameSearchText = $"%{cardQuery.NameSearchText}%";
+                    string nameSearchText = $"%{cardQuery.NameSearchText.Trim()}%";
                     sqlBuilder.Where("c.Name LIKE @NameSearchText");
                     parameters.Add("NameSearchText", nameSearchText);
                 }
 
-                sql.AppendLine(sqlTemplate.RawSql);
-
                 // ORDER BY
-                this.ApplySortingAndPaging(sql, cardQuery);
+                this.ApplySortingAndPaging(sqlBuilder, cardQuery, parameters);
 
-                // OFFSET FETCH    
-                parameters.AddDynamicParams(sql.ApplyPaging(cardQuery.PageNumber, cardQuery.PageSize));
-
-                return await base._dbConnection.QueryAsync<Models.Yugioh.Card>(sql.ToString(), parameters);
+                return await base._dbConnection.QueryAsync<Models.Yugioh.Card>(sqlTemplate.RawSql, parameters);
             }
             catch (Exception) { throw; }
         }
 
-        public StringBuilder ApplySortingAndPaging(StringBuilder sql, Models.Yugioh.CardQuery cardQuery)
+        private void ApplySortingAndPaging(
+            SqlBuilder sqlBuilder, 
+            Models.Yugioh.CardQuery cardQuery,
+            DynamicParameters parameters)
         {
-            string orderBy = "ORDER BY c.Name";
+            string orderBy = "c.Name";
 
             if (cardQuery.SortBy.HasValue)
             {
                 switch (cardQuery.SortBy)
                 {
                     case Models.Query.SortByEnum.Date:
-                        orderBy = "ORDER BY gbic.ReleaseDate";
+                        orderBy = "gbic.ReleaseDate";
                         break;
                     case Models.Query.SortByEnum.Name:
-                        orderBy = "ORDER BY c.Name";
-                        break;
-                    default:
-                        orderBy = "ORDER BY c.Name";
+                        orderBy = "c.Name";
                         break;
                 }
             }
@@ -117,9 +109,13 @@ namespace Cards.Data.Repositories.Yugioh
                     break;
             }
 
-            sql.AppendLine(orderBy);
+            (int offset, int fetch) offsetFetchTuple = sqlBuilder.ApplyPaging(orderBy, cardQuery.PageNumber, cardQuery.PageSize);
 
-            return sql;
+            parameters.AddDynamicParams(new 
+            { 
+                OffsetValue = offsetFetchTuple.offset, 
+                FetchValue = offsetFetchTuple.fetch 
+            });
         }
     }
 }
