@@ -3,12 +3,23 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-center">
         <div class="col-xxl-6 col-12">
-            <EditForm Model="Input" OnSubmit="SearchAsync" FormName="cardSearchForm">
-                <div class="input-group mb-3">
-                    <InputText @bind-Value="Input.NameSearchText" class="form-control" />
-                    <Button Type="ButtonType.Submit" Color="ButtonColor.Primary">Search</Button>
-                </div>
-            </EditForm>
+            <div>
+                <EditForm Model="Input" OnSubmit="SearchAsync" FormName="cardSearchForm">
+                    <div class="input-group mb-3">
+                        <InputText @bind-Value="Input.NameSearchText" class="form-control" />
+                        <Button Type="ButtonType.Submit" Color="ButtonColor.Primary">Search</Button>
+                    </div>
+                </EditForm>
+                @if (this.Cards.Any())
+                {
+                    foreach(var card in this.Cards)
+                    {
+                        <div class="mb-2">
+                            <DetailsCard Card="card" />
+                        </div>
+                    }
+                }
+            </div>
         </div>
     </div>
 </div>

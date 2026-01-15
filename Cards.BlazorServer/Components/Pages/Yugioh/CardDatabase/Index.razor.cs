@@ -14,12 +14,21 @@ namespace Cards.BlazorServer.Components.Pages.Yugioh.CardDatabase
         [SupplyParameterFromForm]
         public InputModel Input { get; set; } = new();
 
+        public List<CardModel> Cards { get; set; } = new();
+
         private async Task SearchAsync()
         {
-            List<CardModel> cards = await this.CardClient.GetAllOrQueryAsync(new CardQueryModel()
+            if (String.IsNullOrWhiteSpace(Input.NameSearchText))
             {
-                NameSearchText = Input.NameSearchText
-            });
+                return;
+            }
+
+            this.Cards = await this.CardClient.GetAllOrQueryAsync(new CardQueryModel()
+            {
+                NameSearchText = Input.NameSearchText,
+                SortBy = Api.Models.QueryModel.SortByEnum.Name,
+                PageSize = 10
+            }, CardModel.Expansions.Images);
         }
 
         public class InputModel
