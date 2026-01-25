@@ -55,7 +55,7 @@ namespace Cards.WebScraper.Services
             string baseUrl = uri.GetLeftPart(UriPartial.Authority);
             var currentWebHtml = new HtmlWeb();
             var currentPageHtml = currentWebHtml.Load(uri.OriginalString);
-            var packHtmlNodes = currentPageHtml.DocumentNode.SelectNodes("//div[@id=\"card_list_1\"]//div[@id=\"list_title_1\"]//div[contains(@class, \"list_body\")]//div[contains(@class, \"pack\")]//input[contains(@class, \"link_value\")]");
+            var packHtmlNodes = currentPageHtml.DocumentNode.SelectNodes("//div[@id=\"card_list_3\"]//div[@id=\"update_list\"]//div[contains(@class, \"t_body\")]//div[contains(@class, \"t_row\")]//input[contains(@class, \"link_value\")]");
             var packUrls = packHtmlNodes.Select(x => HttpUtility.HtmlDecode(baseUrl + x.Attributes["value"].Value)).ToList();
             var cardNamesPairs = new Dictionary<string, CardLineItem>(StringComparer.OrdinalIgnoreCase); 
             var attributeNameIdPairs = new Dictionary<string, Guid>(StringComparer.OrdinalIgnoreCase); 
@@ -71,15 +71,19 @@ namespace Cards.WebScraper.Services
                 // Location of the set name and set date.
                 var titleBar = currentPageHtml.DocumentNode.SelectSingleNode("//header[@id=\"broad_title\"]//div");
                 var setName = titleBar.SelectSingleNode(".//h1").InnerText;
-                var setDate = Regex.Match(titleBar.SelectSingleNode(".//p[@id=\"previewed\"]").InnerText.RemoveWhitespaceCharacters(), @"\d{2}\/\d{2}\/\d{4}").Value;
+                var setDateNode = titleBar.SelectSingleNode(".//p[@id=\"previewed\"]");
+                var setDate = setDateNode != null ? Regex.Match(setDateNode.InnerText.RemoveWhitespaceCharacters(), @"\d{2}\/\d{2}\/\d{4}").Value : null;
                 var setLineItem = new SetLineItem
                 {
                     Name = setName,
-                    Date = DateTime.Parse(setDate)
+                    Date = DateTime.TryParse(setDate, out DateTime date) ? date : (DateTime?)null
                 };
 
                 var cardHtmlNodes = currentPageHtml.DocumentNode.SelectNodes("//div[@id=\"card_list\"]//div[contains(@class, \"t_row\")]");
-                this.BuildCards(cardHtmlNodes, setLineItem, cardNamesPairs);           
+                if(cardHtmlNodes?.Any() == true)
+                {
+                    this.BuildCards(cardHtmlNodes, setLineItem, cardNamesPairs);
+                }
                 _progressService.ProgressBar(i + 1, packUrls.Count);
             }
 
@@ -306,7 +310,7 @@ namespace Cards.WebScraper.Services
                 });
             }
             ImageLineItem[] cardImageLineItems = await Task.WhenAll(cardIdUrlPairs.Select(x => this.GetCardImgSrcDataAsync(x)));
-            string baseOutputDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Cards.WebScraper\\Images\\Yugioh\\");
+            string baseOutputDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Cards.Resources\\Images\\Yugioh\\");
             Directory.CreateDirectory(baseOutputDirectory);
             List<string> imagePaths = new List<string>();
             using (var httpClient = new HttpClient())
@@ -342,7 +346,7 @@ namespace Cards.WebScraper.Services
             
         }
 
-        private async Task<ImageLineItem> GetCardImgSrcDataAsync(KeyValuePair<Guid, List<string>> cardIdUrlPair/*, HtmlWeb htmlWeb*/)
+        private async Task<ImageLineItem> GetCardImgSrcDataAsync(KeyValuePair<Guid, List<string>> cardIdUrlPair)
         {
             HtmlWeb htmlWeb = new HtmlWeb();
             List<string> cardImageSrcs = new List<string>();
@@ -449,7 +453,7 @@ namespace Cards.WebScraper.Services
         public class SetLineItem
         {
             public string Name { get; set; }
-            public DateTime Date { get; set; }
+            public DateTime? Date { get; set; }
         }
 
         public class ImageLineItem

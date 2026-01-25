@@ -1,7 +1,7 @@
 CREATE TABLE [yugioh].[Set](
 	[SetId] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](255) NOT NULL,
-	[ReleaseDate] [date] NOT NULL,
+	[ReleaseDate] [date] NULL,
 	[CreatedOn] [datetimeoffset](7) NOT NULL,
 	[UpdatedOn] [datetimeoffset](7) NULL,
 	[CreatedBy] [uniqueidentifier] NOT NULL,

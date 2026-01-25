@@ -127,7 +127,7 @@ namespace Cards.Data.Models.Yugioh
 		[Key]
 		[Column] public Guid SetId { get; set; }
 		[Column] public string Name { get; set; }
-		[Column] public DateTime ReleaseDate { get; set; }
+		[Column] public DateTime? ReleaseDate { get; set; }
 		[Column] public DateTimeOffset CreatedOn { get; set; }
 		[Column] public DateTimeOffset? UpdatedOn { get; set; }
 		[Column] public Guid CreatedBy { get; set; }

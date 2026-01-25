@@ -51,7 +51,7 @@ namespace Cards.Api.Controllers.Yugioh
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         public async Task<IActionResult> GetAllOrQueryAsync(
             [FromQuery] Models.Yugioh.Query.CardQueryModel cardQueryModel,
-            [FromQuery] Models.Yugioh.CardModel.Expansions[] expansions)
+            [FromQuery] Models.Yugioh.CardModel.Expansions[]? expansions)
         {
             try
             {

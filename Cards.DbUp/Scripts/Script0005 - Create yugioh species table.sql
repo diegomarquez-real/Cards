@@ -1,6 +1,6 @@
 CREATE TABLE [yugioh].[Species](
 	[SpeciesId] [uniqueidentifier] NOT NULL,
-	[Name] [nvarchar](25) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
 	[CreatedOn] [datetimeoffset](7) NOT NULL,
 	[UpdatedOn] [datetimeoffset](7) NULL,
 	[CreatedBy] [uniqueidentifier] NOT NULL,
