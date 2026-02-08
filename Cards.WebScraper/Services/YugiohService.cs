@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -303,7 +304,8 @@ namespace Cards.WebScraper.Services
             {
                 cardIdUrlPairs.Add(card.CardId, new List<string>() 
                 { 
-                    _options.Value.YugiohImgDbUrl + card.Name.Replace("\"", "").Replace(" ", "_").Replace("!", "").Replace("?", "").Replace(":", "").Replace("'", "").Replace(".", "").Replace("&", "").Replace(",", "").Replace("@", "").Replace(@"/", "").Replace("#", "").Replace("(", "").Replace(")", "").Replace("<", "").Replace(">", ""), 
+                    _options.Value.YugiohImgDbUrl + card.Name.Replace("\"", "").Replace(" ", "_").Replace("!", "").Replace("?", "").Replace(":", "").Replace("'", "").Replace(".", "").Replace("&", "").Replace(",", "").Replace("@", "").Replace(@"/", "").Replace("#", "").Replace("(", "").Replace(")", "").Replace("<", "").Replace(">", ""),
+                    _options.Value.YugiohImgDbUrl2 + card.Name.Replace("\"", "").Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", "").Replace("#", ""),
                     _options.Value.YugiohImgDbUrl2 + card.Name.Replace("\"", "").Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", ""),
                     _options.Value.YugiohImgDbUrl2 + card.Name.Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", ""),
                     _options.Value.YugiohImgDbUrl2 + card.Name.Replace("\"", "").Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", "") + "_(card)"
@@ -375,8 +377,33 @@ namespace Cards.WebScraper.Services
 
         private async Task<HtmlNode> GetNodeByUrlAsync(string url, string xPath, HtmlWeb htmlWeb)
         {
-            HtmlDocument htmlDoc = await htmlWeb.LoadFromWebAsync(url);
-            return htmlDoc.DocumentNode.SelectSingleNode(xPath);
+            HtmlNode htmlNode = null;
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.UserAgent.ParseAdd(
+                    "Cards/1.0 (diegotest@test.com)");
+
+                string json = await client.GetStringAsync(url);
+
+                using (var jsonDoc = JsonDocument.Parse(json))
+                {
+                    string? html = jsonDoc.RootElement
+                    .GetProperty("parse")
+                    .GetProperty("text")
+                    .GetProperty("*")
+                    .GetString();
+
+                    if (html is not null)
+                    {
+                        HtmlDocument htmlDoc = new HtmlDocument();
+                        htmlDoc.LoadHtml(html);
+                        htmlNode = htmlDoc.DocumentNode.SelectSingleNode(xPath);
+                    }
+                };
+            };
+
+            return htmlNode;
         }
 
         private void BuildCards(HtmlNodeCollection cardHtmlNodes, SetLineItem setLineItem, Dictionary<string, CardLineItem> container)
