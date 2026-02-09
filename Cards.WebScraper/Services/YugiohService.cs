@@ -305,6 +305,9 @@ namespace Cards.WebScraper.Services
                 cardIdUrlPairs.Add(card.CardId, new List<string>() 
                 { 
                     _options.Value.YugiohImgDbUrl + card.Name.Replace("\"", "").Replace(" ", "_").Replace("!", "").Replace("?", "").Replace(":", "").Replace("'", "").Replace(".", "").Replace("&", "").Replace(",", "").Replace("@", "").Replace(@"/", "").Replace("#", "").Replace("(", "").Replace(")", "").Replace("<", "").Replace(">", ""),
+                    _options.Value.YugiohImgDbUrl2 + HttpUtility.UrlEncode(card.Name),
+                    _options.Value.YugiohImgDbUrl2 + HttpUtility.UrlEncode(card.Name  + "_(card)"),
+                    _options.Value.YugiohImgDbUrl2 + HttpUtility.UrlEncode(card.Name.Replace("#", "")),
                     _options.Value.YugiohImgDbUrl2 + card.Name.Replace("\"", "").Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", "").Replace("#", ""),
                     _options.Value.YugiohImgDbUrl2 + card.Name.Replace("\"", "").Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", ""),
                     _options.Value.YugiohImgDbUrl2 + card.Name.Replace(" ", "_").Replace("?", HttpUtility.UrlEncode("?")).Replace("'", HttpUtility.UrlEncode("'")).Replace("&", HttpUtility.UrlEncode("&")).Replace("<", "").Replace(">", ""),
@@ -360,7 +363,12 @@ namespace Cards.WebScraper.Services
                 int cardUrlIndex = 1;
                 while (cardImgNode == null && cardUrlIndex < cardIdUrlPair.Value.Count)
                 {
-                    cardImgNode = await this.GetNodeByUrlAsync(cardIdUrlPair.Value[cardUrlIndex], "//div[contains(@class, \"cardtable-main_image-wrapper\")]//a//img", htmlWeb);
+                    int tries = 0;
+                    while(cardImgNode is null && tries != 4)
+                    {
+                        cardImgNode = await this.GetNodeByUrlAsync(cardIdUrlPair.Value[cardUrlIndex], "//div[contains(@class, \"cardtable-main_image-wrapper\")]//a//img", htmlWeb);
+                        tries++;
+                    }
                     cardUrlIndex++;
                 }
                 cardImageSrcs.Add(cardImgNode.GetAttributeValue("src", String.Empty));
@@ -376,34 +384,41 @@ namespace Cards.WebScraper.Services
         }
 
         private async Task<HtmlNode> GetNodeByUrlAsync(string url, string xPath, HtmlWeb htmlWeb)
-        {
-            HtmlNode htmlNode = null;
-
-            using (var client = new HttpClient())
+        {     
+            try
             {
-                client.DefaultRequestHeaders.UserAgent.ParseAdd(
-                    "Cards/1.0 (diegotest@test.com)");
+                HtmlNode htmlNode = null;
 
-                string json = await client.GetStringAsync(url);
-
-                using (var jsonDoc = JsonDocument.Parse(json))
+                using (var client = new HttpClient())
                 {
-                    string? html = jsonDoc.RootElement
-                    .GetProperty("parse")
-                    .GetProperty("text")
-                    .GetProperty("*")
-                    .GetString();
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd(
+                        "Cards/1.0 (diegotest@test.com)");
 
-                    if (html is not null)
+                    string json = await client.GetStringAsync(url);
+
+                    using (var jsonDoc = JsonDocument.Parse(json))
                     {
-                        HtmlDocument htmlDoc = new HtmlDocument();
-                        htmlDoc.LoadHtml(html);
-                        htmlNode = htmlDoc.DocumentNode.SelectSingleNode(xPath);
-                    }
-                };
-            };
+                        string? html = jsonDoc.RootElement
+                        .GetProperty("parse")
+                        .GetProperty("text")
+                        .GetProperty("*")
+                        .GetString();
 
-            return htmlNode;
+                        if (html is not null)
+                        {
+                            HtmlDocument htmlDoc = new HtmlDocument();
+                            htmlDoc.LoadHtml(html);
+                            htmlNode = htmlDoc.DocumentNode.SelectSingleNode(xPath);
+                        }
+                    };
+                };
+
+                return htmlNode;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }      
         }
 
         private void BuildCards(HtmlNodeCollection cardHtmlNodes, SetLineItem setLineItem, Dictionary<string, CardLineItem> container)
